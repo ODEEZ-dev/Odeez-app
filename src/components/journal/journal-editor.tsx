@@ -33,6 +33,7 @@ const editorExtensions = [
   StarterKit.configure({
     heading: { levels: [1, 2, 3] },
     codeBlock: { languageClassPrefix: 'language-' },
+    link: false,
   }),
   Placeholder.configure({
     placeholder: 'Start writing your journal entry...',

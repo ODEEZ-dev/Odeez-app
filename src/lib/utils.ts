@@ -132,3 +132,9 @@ export function isPast(date: Date): boolean {
 export function isFuture(date: Date): boolean {
   return date > new Date()
 }
+
+export function numberValueAs(v: unknown): number | undefined {
+  if (v === '' || v === null || v === undefined) return undefined
+  const n = typeof v === 'number' ? v : Number(v)
+  return Number.isNaN(n) ? undefined : n
+}

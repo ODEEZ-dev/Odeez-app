@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { cn } from '@/lib/utils'
+import { cn, numberValueAs } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -148,7 +148,7 @@ export function BudgetDialog({
                 step="0.01"
                 min="0.01"
                 placeholder="0.00"
-                {...register('amount', { valueAsNumber: true })}
+                {...register('amount', { setValueAs: numberValueAs })}
                 className={cn(errors.amount && 'border-destructive')}
               />
               {errors.amount && <p className="text-sm text-destructive">{errors.amount.message}</p>}
@@ -243,7 +243,7 @@ export function BudgetDialog({
               min="1"
               max="100"
               step="1"
-              {...register('alertThreshold', { valueAsNumber: true })}
+              {...register('alertThreshold', { setValueAs: numberValueAs })}
             />
             <p className="text-xs text-muted-foreground">
               Get notified when spending reaches this percentage of your budget

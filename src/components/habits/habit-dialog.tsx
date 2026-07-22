@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { cn } from '@/lib/utils'
+import { cn, numberValueAs } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -169,7 +169,7 @@ export function HabitDialog({
               <Input
                 type="number"
                 min="1"
-                {...register('targetCount', { valueAsNumber: true })}
+                {...register('targetCount', { setValueAs: numberValueAs })}
                 placeholder="1"
               />
             </div>

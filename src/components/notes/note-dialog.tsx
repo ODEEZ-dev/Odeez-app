@@ -96,9 +96,11 @@ export function NoteDialog({
   const [tagInput, setTagInput] = useState('')
 
   const editor = useEditor({
+    immediatelyRender: true,
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
+        link: false,
       }),
       Placeholder.configure({
         placeholder: 'Start writing your note...',

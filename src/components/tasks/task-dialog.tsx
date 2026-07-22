@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { X, Calendar, Plus } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
-import { cn } from '@/lib/utils'
+import { cn, numberValueAs } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -268,7 +268,7 @@ export function TaskDialog({
               <Input
                 type="number"
                 placeholder="e.g., 60"
-                {...register('estimatedMinutes', { valueAsNumber: true })}
+                {...register('estimatedMinutes', { setValueAs: numberValueAs })}
               />
             </div>
 
