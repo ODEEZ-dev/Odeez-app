@@ -1,0 +1,124 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useTheme } from 'next-themes'
+import { Bell, Moon, Sun, User, LogOut, Settings, Check } from 'lucide-react'
+import type { User as SupabaseUser } from '@supabase/supabase-js'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+} from '@/components/ui/dropdown-menu'
+import { cn } from '@/lib/utils'
+import { createClient } from '@/lib/supabase/client'
+import { CommandPaletteTrigger } from '@/components/search/command-palette'
+
+export function Header({ sidebarCollapsed }: { sidebarCollapsed: boolean }) {
+  const { setTheme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const [user, setUser] = useState<SupabaseUser | null>(null)
+
+  useEffect(() => {
+    setMounted(true)
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => setUser(data.user))
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+    return () => sub.subscription.unsubscribe()
+  }, [])
+
+  const handleSignOut = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    window.location.href = '/auth/login'
+  }
+
+  const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User'
+  const displayEmail = user?.email || 'Signed in'
+
+  return (
+    <header
+      className={cn(
+        'fixed top-0 right-0 z-30 h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300',
+        sidebarCollapsed ? 'left-16' : 'left-64'
+      )}
+    >
+      <div className="flex h-full items-center justify-between px-4">
+        <div className="flex items-center gap-4">
+          <CommandPaletteTrigger />
+        </div>
+
+        <div className="flex items-center gap-2">
+          {/* Notifications */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
+                <Bell className="h-5 w-5" />
+                <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-80" align="end" forceMount>
+              <DropdownMenuLabel className="font-normal">
+                <p className="text-sm font-medium">Notifications</p>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <div className="p-4 text-sm text-muted-foreground flex flex-col items-center justify-center gap-2 min-h-[80px]">
+                <Check className="h-5 w-5 text-muted-foreground/60" />
+                <p>You're all caught up</p>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Theme toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+            aria-label="Toggle theme"
+          >
+            {mounted && resolvedTheme === 'dark' ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </Button>
+
+          {/* User dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                <User className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium">{displayName}</p>
+                  <p className="text-xs text-muted-foreground truncate">{displayEmail}</p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/settings">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
+                <LogOut className="mr-2 h-4 w-4" />
+                Sign out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+    </header>
+  )
+}
