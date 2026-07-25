@@ -96,7 +96,8 @@ export function JournalEditor({ content, onChange, editable = true, className }:
   const addImage = () => {
     const url = window.prompt('Enter image URL:')
     if (url) {
-      editor.chain().focus().setImage({ src: url }).run()
+      const alt = window.prompt('Enter alt text (optional):') || ''
+      editor.chain().focus().setImage({ src: url, alt }).run()
     }
   }
 

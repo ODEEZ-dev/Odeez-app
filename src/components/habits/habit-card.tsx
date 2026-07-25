@@ -70,8 +70,7 @@ export function HabitCard({
   }
 
   return (
-    <Card className="relative overflow-hidden transition-all hover:shadow-md">
-      <div className="absolute top-0 left-0 h-full w-1" style={{ backgroundColor: habit.color }} />
+    <Card className="relative overflow-hidden transition-colors hover:bg-accent/30">
       
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">

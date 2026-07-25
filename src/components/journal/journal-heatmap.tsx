@@ -1,7 +1,7 @@
 'use client'
 
-import { format, startOfYear, endOfYear, eachDayOfInterval, isToday, isSameDay, subYears } from 'date-fns'
-import { Calendar, Flame } from 'lucide-react'
+import { format, startOfYear, endOfYear, eachDayOfInterval, isToday } from 'date-fns'
+import { Flame } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
@@ -20,11 +20,6 @@ function getColorForCount(count: number, isDark: boolean) {
   if (count === 0) return isDark ? '#1e1e1e' : '#f5f5f5'
   const index = Math.min(Math.floor(count / 2), colors.length - 1)
   return colors[index]
-}
-
-function getEntriesForDate(entries: JournalEntry[], date: Date): JournalEntry[] {
-  const dateStr = format(date, 'yyyy-MM-dd')
-  return entries.filter(e => format(new Date(e.date), 'yyyy-MM-dd') === dateStr)
 }
 
 export function JournalHeatmap({ entries, className }: JournalHeatmapProps) {

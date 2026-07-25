@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
-import { Calendar, Plus, Filter, Search, ChevronLeft, ChevronRight, Sun, LayoutList, CalendarDays } from 'lucide-react'
+import { Calendar, Plus, Filter, ChevronLeft, ChevronRight, LayoutList, CalendarDays } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'

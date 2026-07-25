@@ -20,7 +20,6 @@ interface NoteCardProps {
   note: Note
   onEdit: (note: Note) => void
   onDelete: (noteId: string) => void
-  onTogglePin: (noteId: string, pinned: boolean) => void
   onToggleArchive: (noteId: string, archived: boolean) => void
   onCopy: (note: Note) => void
 }
@@ -29,7 +28,6 @@ export function NoteCard({
   note,
   onEdit,
   onDelete,
-  onTogglePin,
   onToggleArchive,
   onCopy,
 }: NoteCardProps) {
@@ -38,7 +36,7 @@ export function NoteCard({
   return (
     <Card
       className={cn(
-        'transition-all duration-200 hover:shadow-lg',
+        'transition-colors hover:bg-accent/30',
         note.pinned && 'ring-2 ring-amber-400/50 relative',
         note.archived && 'opacity-60'
       )}

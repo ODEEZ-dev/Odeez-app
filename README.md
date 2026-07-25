@@ -74,8 +74,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ```
 src/
 ├── app/                    # Next.js App Router pages
-│   ├── (auth)/            # Auth pages (login, register)
-│   ├── (dashboard)/       # Protected dashboard pages
+│   ├── auth/              # Auth pages (login, register, OAuth callback)
+│   ├── (dashboard)/       # Protected dashboard pages (route group)
 │   │   ├── dashboard/     # Today view
 │   │   ├── tasks/         # Tasks module
 │   │   ├── habits/        # Habits module

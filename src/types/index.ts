@@ -55,6 +55,31 @@ export interface Project {
   updatedAt: Date
 }
 
+export interface ProjectMember {
+  id: string
+  projectId: string
+  userId: string
+  role: 'OWNER' | 'MEMBER' | 'MANAGER'
+  joinedAt: Date
+}
+
+export interface ProjectSection {
+  id: string
+  projectId: string
+  name: string
+  order: number
+  createdAt: Date
+  updatedAt: Date
+  _count?: { tasks: number }
+}
+
+export interface ProjectWithDetails extends Project {
+  owner: Pick<User, 'id' | 'name' | 'email' | 'avatarUrl'>
+  members: (ProjectMember & { user: Pick<User, 'id' | 'name' | 'email' | 'avatarUrl'> })[]
+  sections: (ProjectSection & { _count: { tasks: number } })[]
+  _count: { tasks: number; members: number; sections: number }
+}
+
 export interface Habit {
   id: string
   name: string
@@ -207,12 +232,20 @@ export interface User {
 export interface UserSettings {
   id: string
   userId: string
-  theme: 'light' | 'dark' | 'system'
-  timezone: string
-  currency: string
-  weekStartsOn: number
-  notifications: boolean
+  emailNotifications: boolean
+  pushNotifications: boolean
   dailyDigest: boolean
+  weeklyReport: boolean
+  defaultTaskPriority: string
+  defaultTaskView: string
+  weekStartsOn: number
+  habitReminderTime: string | null
+  defaultCurrency: string
+  budgetAlertThreshold: number
+  calendarView: string
+  showWeekends: boolean
+  profilePublic: boolean
+  dataSharing: boolean
   createdAt: Date
   updatedAt: Date
 }
@@ -348,6 +381,12 @@ export const TASK_STATUS_OPTIONS = [
   { value: 'IN_REVIEW', label: 'In Review', color: '#8B5CF6' },
   { value: 'DONE', label: 'Done', color: '#10B981' },
   { value: 'ARCHIVED', label: 'Archived', color: '#9CA3AF' },
+] as const
+
+export const PROJECT_ROLE_OPTIONS = [
+  { value: 'OWNER', label: 'Owner' },
+  { value: 'MANAGER', label: 'Manager' },
+  { value: 'MEMBER', label: 'Member' },
 ] as const
 
 export const HABIT_FREQUENCY_OPTIONS = [

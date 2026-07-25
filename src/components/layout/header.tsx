@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
-import { Bell, Moon, Sun, User, LogOut, Settings, Check } from 'lucide-react'
+import { Bell, Moon, Sun, User, LogOut, Settings, Check, Menu } from 'lucide-react'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 import { Button } from '@/components/ui/button'
 import {
@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 import { CommandPaletteTrigger } from '@/components/search/command-palette'
 
-export function Header({ sidebarCollapsed }: { sidebarCollapsed: boolean }) {
+export function Header({ sidebarCollapsed, onMobileMenuToggle }: { sidebarCollapsed: boolean; onMobileMenuToggle?: () => void }) {
   const { setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [user, setUser] = useState<SupabaseUser | null>(null)
@@ -45,12 +45,22 @@ export function Header({ sidebarCollapsed }: { sidebarCollapsed: boolean }) {
   return (
     <header
       className={cn(
-        'fixed top-0 right-0 z-30 h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300',
-        sidebarCollapsed ? 'left-16' : 'left-64'
+        'fixed top-0 right-0 z-header h-16 border-b bg-background/85 backdrop-blur-md transition-all duration-300',
+        'left-0 lg:left-16',
+        !sidebarCollapsed && 'lg:left-64'
       )}
     >
       <div className="flex h-full items-center justify-between px-4">
         <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={onMobileMenuToggle}
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
           <CommandPaletteTrigger />
         </div>
 

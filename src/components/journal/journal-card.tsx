@@ -1,8 +1,8 @@
 'use client'
 
 import { format, isToday as isTodayFn, isYesterday } from 'date-fns'
-import { BookOpen, Calendar, Tag, ChevronRight, MoreHorizontal, Edit, Trash2 } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Calendar, Tag, MoreHorizontal, Edit, Trash2 } from 'lucide-react'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
-import { MOOD_OPTIONS, Mood } from '@/types'
+import { Mood } from '@/types'
 import { JournalEntry } from '@/types'
 
 const moodIcons: Record<Mood, string> = {
@@ -42,8 +42,6 @@ export function JournalCard({ entry, onEdit, onDelete }: JournalCardProps) {
     : isYesterday(entryDate)
     ? 'Yesterday'
     : format(entryDate, 'MMMM d, yyyy')
-
-  const contentPreview = entry.content.replace(/<[^>]*>/g, '').slice(0, 200)
 
   return (
     <Card className="hover:shadow-md transition-shadow">
@@ -140,8 +138,7 @@ export function JournalCalendarDay({ date, entry, selected, onSelect, today }: J
         hasEntry && !selected && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'
       )}
       disabled={!isCurrentMonth}
-      aria-current={isTodayDate ? 'date' : undefined}
-      aria-selected={selected}
+      aria-current={isTodayDate && isCurrentMonth ? 'date' : undefined}
     >
       <span className={cn('font-medium', isTodayDate && 'text-primary')}>
         {date.getDate()}

@@ -1,7 +1,7 @@
 'use client'
 
-import { Search, Filter, Grid, List, Pin, Archive } from 'lucide-react'
-import { useState, useCallback } from 'react'
+import { Search, Filter, Grid, List, Pin } from 'lucide-react'
+import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -33,7 +33,6 @@ export function NoteListView({
   notes,
   onEdit,
   onDelete,
-  onTogglePin,
   onToggleArchive,
   onCopy,
   isLoading,
@@ -169,7 +168,6 @@ export function NoteListView({
               note={note}
               onEdit={onEdit}
               onDelete={onDelete}
-              onTogglePin={onTogglePin}
               onToggleArchive={onToggleArchive}
               onCopy={onCopy}
             />

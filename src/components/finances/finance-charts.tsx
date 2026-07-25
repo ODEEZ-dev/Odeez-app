@@ -37,8 +37,8 @@ interface FinanceChartProps {
 
 const COLORS = {
   INCOME: '#10B981',
-  EXPENSE: '#EF4444',
-  TRANSFER: '#3B82F6',
+  EXPENSE: '#F43F5E',
+  TRANSFER: '#2563EB',
   INVESTMENT: '#8B5CF6',
 }
 
@@ -75,9 +75,9 @@ export function FinanceOverviewChart({ entries, currency = 'USD' }: FinanceChart
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis type="number" tickFormatter={(value) => formatCurrency(value, currency)} />
-              <YAxis dataKey="month" type="category" width={60} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+              <XAxis type="number" tickFormatter={(value) => formatCurrency(value, currency)} tick={{ fontSize: 12 }} />
+              <YAxis dataKey="month" type="category" width={60} tick={{ fontSize: 12 }} />
               <Tooltip
                 formatter={(value: number, name: string) => [
                   formatCurrency(value, currency),
@@ -123,7 +123,7 @@ export function ExpenseCategoryChart({ entries, currency = 'USD' }: FinanceChart
     .sort((a, b) => b.value - a.value)
     .slice(0, 8)
 
-  const COLORS_PIE = ['#EF4444', '#F97316', '#F59E0B', '#EAB308', '#84CC16', '#22C55E', '#06B6D4', '#3B82F6']
+  const COLORS_PIE = ['#F43F5E', '#FB923C', '#FBBF24', '#A3E635', '#34D399', '#22D3EE', '#60A5FA', '#A78BFA']
 
   return (
     <Card>
@@ -279,7 +279,7 @@ export function BudgetProgressChart({ budgets }: { budgets: Budget[] }) {
                     {percentage}%
                   </span>
                 </div>
-                <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                <div className="h-3 bg-muted rounded-full overflow-hidden">
                   <div
                     className={`
                       h-full rounded-full transition-all duration-300

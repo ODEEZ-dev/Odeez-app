@@ -4,6 +4,7 @@ import { GET, POST } from '@/app/api/calendar/route'
 import { GET as GET_ID, PUT, DELETE } from '@/app/api/calendar/[id]/route'
 import { prisma } from '@/lib/db/prisma'
 import { createClient } from '@/lib/supabase/server'
+import { createMockCalendarEvent } from '../fixtures/factories'
 
 vi.mock('@/lib/supabase/server')
 vi.mock('@/lib/db/prisma', () => ({
@@ -42,10 +43,10 @@ describe('Calendar API', () => {
 
   describe('GET /api/calendar', () => {
     it('should return events for authenticated user', async () => {
-      const now = new Date().toISOString()
+      const now = new Date()
       const mockEvents = [
-        { id: validCuid, title: 'Event 1', startTime: now, endTime: now, userId: 'user-1' },
-        { id: 'clx1234567890abcdef123457', title: 'Event 2', startTime: now, endTime: now, userId: 'user-1' },
+        createMockCalendarEvent({ id: validCuid, title: 'Event 1', startTime: now, endTime: now }),
+        createMockCalendarEvent({ id: 'clx1234567890abcdef123457', title: 'Event 2', startTime: now, endTime: now }),
       ]
 
       vi.mocked(prisma.calendarEvent.findMany).mockResolvedValue(mockEvents)
@@ -56,7 +57,7 @@ describe('Calendar API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data.data).toEqual(mockEvents)
+      expect(data.data).toEqual(JSON.parse(JSON.stringify(mockEvents)))
       expect(data.meta.total).toBe(2)
     })
 
@@ -131,14 +132,8 @@ describe('Calendar API', () => {
 
   describe('POST /api/calendar', () => {
     it('should create a new event for authenticated user', async () => {
-      const now = new Date().toISOString()
-      const newEvent = { 
-        id: validCuid, 
-        title: 'New Event', 
-        startTime: now, 
-        endTime: now, 
-        userId: 'user-1' 
-      }
+      const now = new Date()
+      const newEvent = createMockCalendarEvent({ id: validCuid, title: 'New Event', startTime: now, endTime: now })
       vi.mocked(prisma.calendarEvent.create).mockResolvedValue(newEvent)
 
       const request = new NextRequest(new URL('http://localhost/api/calendar'), {
@@ -155,7 +150,7 @@ describe('Calendar API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(201)
-      expect(data).toEqual(newEvent)
+      expect(data).toEqual(JSON.parse(JSON.stringify(newEvent)))
       expect(prisma.calendarEvent.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           title: 'New Event',
@@ -179,14 +174,8 @@ describe('Calendar API', () => {
     })
   describe('GET /api/calendar/[id]', () => {
     it('should return a single event', async () => {
-      const now = new Date().toISOString()
-      const mockEvent = { 
-        id: validCuid, 
-        title: 'Event 1', 
-        startTime: now, 
-        endTime: now, 
-        userId: 'user-1' 
-      }
+      const now = new Date()
+      const mockEvent = createMockCalendarEvent({ id: validCuid, title: 'Event 1', startTime: now, endTime: now })
       vi.mocked(prisma.calendarEvent.findFirst).mockResolvedValue(mockEvent)
 
       const request = new NextRequest(new URL(`http://localhost/api/calendar/${validCuid}`))
@@ -194,7 +183,7 @@ describe('Calendar API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data).toEqual(mockEvent)
+      expect(data).toEqual(JSON.parse(JSON.stringify(mockEvent)))
     })
 
     it('should return 404 for non-existent event', async () => {
@@ -221,20 +210,8 @@ describe('Calendar API', () => {
 
   describe('PUT /api/calendar/[id]', () => {
     it('should update an event', async () => {
-      const existingEvent = { 
-        id: validCuid, 
-        title: 'Old Title', 
-        startTime: new Date(), 
-        endTime: new Date(), 
-        userId: 'user-1' 
-      }
-      const updatedEvent = { 
-        id: validCuid, 
-        title: 'New Title', 
-        startTime: new Date(), 
-        endTime: new Date(), 
-        userId: 'user-1' 
-      }
+      const existingEvent = createMockCalendarEvent({ id: validCuid, title: 'Old Title' })
+      const updatedEvent = createMockCalendarEvent({ id: validCuid, title: 'New Title' })
 
       vi.mocked(prisma.calendarEvent.findFirst).mockResolvedValue(existingEvent)
       vi.mocked(prisma.calendarEvent.update).mockResolvedValue(updatedEvent)
@@ -272,7 +249,7 @@ describe('Calendar API', () => {
 
   describe('DELETE /api/calendar/[id]', () => {
     it('should delete an event', async () => {
-      const existingEvent = { id: validCuid, title: 'Event 1', userId: 'user-1' }
+      const existingEvent = createMockCalendarEvent({ id: validCuid, title: 'Event 1' })
       vi.mocked(prisma.calendarEvent.findFirst).mockResolvedValue(existingEvent)
       vi.mocked(prisma.calendarEvent.delete).mockResolvedValue({})
 

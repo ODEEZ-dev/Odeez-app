@@ -4,6 +4,7 @@ import { GET, POST } from '@/app/api/contacts/route'
 import { GET as GET_ID, PUT, DELETE } from '@/app/api/contacts/[id]/route'
 import { prisma } from '@/lib/db/prisma'
 import { createClient } from '@/lib/supabase/server'
+import { createMockContact } from '../fixtures/factories'
 
 vi.mock('@/lib/supabase/server')
 vi.mock('@/lib/db/prisma', () => ({
@@ -43,8 +44,8 @@ describe('Contacts API', () => {
   describe('GET /api/contacts', () => {
     it('should return contacts for authenticated user', async () => {
       const mockContacts = [
-        { id: validCuid, firstName: 'John', lastName: 'Doe', email: 'john@example.com', userId: 'user-1' },
-        { id: 'clx1234567890abcdef123457', firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com', userId: 'user-1' },
+        createMockContact({ id: validCuid, firstName: 'John', lastName: 'Doe', email: 'john@example.com' }),
+        createMockContact({ id: 'clx1234567890abcdef123457', firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com' }),
       ]
 
       vi.mocked(prisma.contact.findMany).mockResolvedValue(mockContacts)
@@ -55,7 +56,7 @@ describe('Contacts API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data.data).toEqual(mockContacts)
+      expect(data.data).toEqual(JSON.parse(JSON.stringify(mockContacts)))
       expect(data.meta.total).toBe(2)
     })
 
@@ -156,13 +157,7 @@ describe('Contacts API', () => {
 
   describe('POST /api/contacts', () => {
     it('should create a new contact for authenticated user', async () => {
-      const newContact = { 
-        id: validCuid, 
-        firstName: 'John', 
-        lastName: 'Doe', 
-        email: 'john@example.com', 
-        userId: 'user-1' 
-      }
+      const newContact = createMockContact({ id: validCuid, firstName: 'John', lastName: 'Doe', email: 'john@example.com' })
       vi.mocked(prisma.contact.create).mockResolvedValue(newContact)
 
       const request = new NextRequest(new URL('http://localhost/api/contacts'), {
@@ -188,7 +183,7 @@ describe('Contacts API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(201)
-      expect(data).toEqual(newContact)
+      expect(data).toEqual(JSON.parse(JSON.stringify(newContact)))
       expect(prisma.contact.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           firstName: 'John',
@@ -209,13 +204,7 @@ describe('Contacts API', () => {
     })
 
     it('should create contact with minimal required fields', async () => {
-      const newContact = { 
-        id: validCuid, 
-        firstName: 'John', 
-        lastName: null, 
-        email: null, 
-        userId: 'user-1' 
-      }
+      const newContact = createMockContact({ id: validCuid, firstName: 'John', lastName: null, email: null })
       vi.mocked(prisma.contact.create).mockResolvedValue(newContact)
 
       const request = new NextRequest(new URL('http://localhost/api/contacts'), {
@@ -228,7 +217,7 @@ describe('Contacts API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(201)
-      expect(data).toEqual(newContact)
+      expect(data).toEqual(JSON.parse(JSON.stringify(newContact)))
       expect(prisma.contact.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           firstName: 'John',
@@ -282,7 +271,7 @@ describe('Contacts API', () => {
 
   describe('GET /api/contacts/[id]', () => {
     it('should return a single contact', async () => {
-      const mockContact = { id: validCuid, firstName: 'John', lastName: 'Doe', userId: 'user-1' }
+      const mockContact = createMockContact({ id: validCuid, firstName: 'John', lastName: 'Doe' })
       vi.mocked(prisma.contact.findFirst).mockResolvedValue(mockContact)
 
       const request = new NextRequest(new URL(`http://localhost/api/contacts/${validCuid}`))
@@ -290,7 +279,7 @@ describe('Contacts API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data).toEqual(mockContact)
+      expect(data).toEqual(JSON.parse(JSON.stringify(mockContact)))
     })
 
     it('should return 404 for non-existent contact', async () => {
@@ -316,8 +305,8 @@ describe('Contacts API', () => {
 
   describe('PUT /api/contacts/[id]', () => {
     it('should update a contact', async () => {
-      const existingContact = { id: validCuid, firstName: 'Old Name', lastName: 'Doe', userId: 'user-1' }
-      const updatedContact = { id: validCuid, firstName: 'New Name', lastName: 'Doe', userId: 'user-1' }
+      const existingContact = createMockContact({ id: validCuid, firstName: 'Old Name', lastName: 'Doe' })
+      const updatedContact = createMockContact({ id: validCuid, firstName: 'New Name', lastName: 'Doe' })
 
       vi.mocked(prisma.contact.findFirst).mockResolvedValue(existingContact)
       vi.mocked(prisma.contact.update).mockResolvedValue(updatedContact)
@@ -344,8 +333,8 @@ describe('Contacts API', () => {
     })
 
     it('should handle birthday update to null', async () => {
-      const existingContact = { id: validCuid, firstName: 'John', birthday: new Date('1990-01-15'), userId: 'user-1' }
-      const updatedContact = { id: validCuid, firstName: 'John', birthday: null, userId: 'user-1' }
+      const existingContact = createMockContact({ id: validCuid, firstName: 'John', birthday: new Date('1990-01-15') })
+      const updatedContact = createMockContact({ id: validCuid, firstName: 'John', birthday: null })
 
       vi.mocked(prisma.contact.findFirst).mockResolvedValue(existingContact)
       vi.mocked(prisma.contact.update).mockResolvedValue(updatedContact)
@@ -382,7 +371,7 @@ describe('Contacts API', () => {
 
   describe('DELETE /api/contacts/[id]', () => {
     it('should delete a contact', async () => {
-      const existingContact = { id: validCuid, firstName: 'John', userId: 'user-1' }
+      const existingContact = createMockContact({ id: validCuid, firstName: 'John' })
       vi.mocked(prisma.contact.findFirst).mockResolvedValue(existingContact)
       vi.mocked(prisma.contact.delete).mockResolvedValue({})
 

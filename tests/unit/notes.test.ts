@@ -4,6 +4,7 @@ import { GET, POST } from '@/app/api/notes/route'
 import { GET as GET_ID, PUT, DELETE } from '@/app/api/notes/[id]/route'
 import { prisma } from '@/lib/db/prisma'
 import { createClient } from '@/lib/supabase/server'
+import { createMockNote } from '../fixtures/factories'
 
 vi.mock('@/lib/supabase/server')
 vi.mock('@/lib/db/prisma', () => ({
@@ -43,8 +44,8 @@ describe('Notes API', () => {
   describe('GET /api/notes', () => {
     it('should return notes for authenticated user', async () => {
       const mockNotes = [
-        { id: validCuid, title: 'Note 1', content: 'Content 1', userId: 'user-1' },
-        { id: 'clx1234567890abcdef123457', title: 'Note 2', content: 'Content 2', userId: 'user-1' },
+        createMockNote({ id: validCuid, title: 'Note 1', content: 'Content 1' }),
+        createMockNote({ id: 'clx1234567890abcdef123457', title: 'Note 2', content: 'Content 2' }),
       ]
 
       vi.mocked(prisma.note.findMany).mockResolvedValue(mockNotes)
@@ -55,7 +56,7 @@ describe('Notes API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data.data).toEqual(mockNotes)
+      expect(data.data).toEqual(JSON.parse(JSON.stringify(mockNotes)))
       expect(data.meta.total).toBe(2)
     })
 
@@ -111,7 +112,7 @@ describe('Notes API', () => {
 
   describe('POST /api/notes', () => {
     it('should create a new note for authenticated user', async () => {
-      const newNote = { id: validCuid, title: 'New Note', content: 'Content', userId: 'user-1' }
+      const newNote = createMockNote({ id: validCuid, title: 'New Note', content: 'Content' })
       vi.mocked(prisma.note.create).mockResolvedValue(newNote)
 
       const request = new NextRequest(new URL('http://localhost/api/notes'), {
@@ -124,7 +125,7 @@ describe('Notes API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(201)
-      expect(data).toEqual(newNote)
+      expect(data).toEqual(JSON.parse(JSON.stringify(newNote)))
       expect(prisma.note.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           title: 'New Note',
@@ -151,7 +152,7 @@ describe('Notes API', () => {
 
   describe('GET /api/notes/[id]', () => {
     it('should return a single note', async () => {
-      const mockNote = { id: validCuid, title: 'Note 1', content: 'Content', userId: 'user-1' }
+      const mockNote = createMockNote({ id: validCuid, title: 'Note 1', content: 'Content' })
       vi.mocked(prisma.note.findFirst).mockResolvedValue(mockNote)
 
       const request = new NextRequest(new URL(`http://localhost/api/notes/${validCuid}`))
@@ -159,7 +160,7 @@ describe('Notes API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data).toEqual(mockNote)
+      expect(data).toEqual(JSON.parse(JSON.stringify(mockNote)))
     })
 
     it('should return 404 for non-existent note', async () => {
@@ -185,8 +186,8 @@ describe('Notes API', () => {
 
   describe('PUT /api/notes/[id]', () => {
     it('should update a note', async () => {
-      const existingNote = { id: validCuid, title: 'Old Title', content: 'Old', userId: 'user-1' }
-      const updatedNote = { id: validCuid, title: 'New Title', content: 'New', userId: 'user-1' }
+      const existingNote = createMockNote({ id: validCuid, title: 'Old Title', content: 'Old' })
+      const updatedNote = createMockNote({ id: validCuid, title: 'New Title', content: 'New' })
 
       vi.mocked(prisma.note.findFirst).mockResolvedValue(existingNote)
       vi.mocked(prisma.note.update).mockResolvedValue(updatedNote)
@@ -201,7 +202,7 @@ describe('Notes API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data).toEqual(updatedNote)
+      expect(data).toEqual(JSON.parse(JSON.stringify(updatedNote)))
     })
 
     it('should return 404 for non-existent note', async () => {
@@ -223,7 +224,7 @@ describe('Notes API', () => {
 
   describe('DELETE /api/notes/[id]', () => {
     it('should delete a note', async () => {
-      const existingNote = { id: validCuid, title: 'Note 1', userId: 'user-1' }
+      const existingNote = createMockNote({ id: validCuid, title: 'Note 1' })
       vi.mocked(prisma.note.findFirst).mockResolvedValue(existingNote)
       vi.mocked(prisma.note.delete).mockResolvedValue({})
 

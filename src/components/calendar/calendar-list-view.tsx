@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useCallback, useMemo } from 'react'
-import { Search, Filter, Calendar, ChevronLeft, ChevronRight, Plus, Sun, LayoutList } from 'lucide-react'
-import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, addDays, addWeeks, addMonths, subWeeks, subMonths, isSameDay, startOfDay } from 'date-fns'
+import { Filter, Calendar, ChevronLeft, ChevronRight, Plus, Sun, LayoutList } from 'lucide-react'
+import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, addDays, addWeeks, addMonths, subWeeks, subMonths, startOfDay } from 'date-fns'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { CalendarEvent } from '@/types'
-import { cn } from '@/lib/utils'
 
 type CalendarView = 'day' | 'week' | 'month'
 

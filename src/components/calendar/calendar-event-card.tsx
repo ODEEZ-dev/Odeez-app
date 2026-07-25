@@ -1,6 +1,6 @@
 'use client'
 
-import { format, isSameDay, startOfDay, endOfDay } from 'date-fns'
+import { format, isSameDay, startOfDay } from 'date-fns'
 import { Calendar, MapPin, Clock, MoreVertical, Edit, Copy, Trash2 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -43,16 +43,20 @@ export function CalendarEventCard({
   return (
     <Card
       className={cn(
-        'transition-all duration-200 hover:shadow-lg border-l-4 cursor-pointer',
-        event.color && `border-l-[${event.color}]`,
+        'transition-colors hover:bg-accent/30 cursor-pointer rounded-lg border',
         isSelectedDate && 'ring-2 ring-primary/50'
       )}
-      style={{ borderLeftColor: event.color ?? '#3B82F6' }}
       onClick={() => onEdit(event)}
     >
       <CardContent className="pt-4 pb-3">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-sm line-clamp-1 pr-2">{event.title}</h3>
+          <div className="flex items-center gap-2">
+            <div
+              className="h-3 w-3 rounded-full flex-shrink-0 mt-1.5"
+              style={{ backgroundColor: event.color ?? '#3B82F6' }}
+            />
+            <h3 className="font-semibold text-sm line-clamp-1">{event.title}</h3>
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity">

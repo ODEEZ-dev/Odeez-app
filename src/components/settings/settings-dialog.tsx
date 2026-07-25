@@ -1,13 +1,12 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { X, Save, Loader2 } from 'lucide-react'
+import { Save, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { Textarea } from '@/components/ui/textarea'
 import {
   Dialog,
   DialogContent,
@@ -16,7 +15,6 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { SettingsUpdateInput } from '@/lib/validations/settings'
-import { cn } from '@/lib/utils'
 
 interface SettingsDialogProps {
   open: boolean
@@ -30,6 +28,7 @@ const CURRENCIES = [
   { code: 'USD', name: 'US Dollar ($)' },
   { code: 'EUR', name: 'Euro (€)' },
   { code: 'GBP', name: 'British Pound (£)' },
+  { code: 'HKD', name: 'Hong Kong Dollar (HK$)' },
   { code: 'CAD', name: 'Canadian Dollar (CA$)' },
   { code: 'AUD', name: 'Australian Dollar (A$)' },
   { code: 'JPY', name: 'Japanese Yen (¥)' },

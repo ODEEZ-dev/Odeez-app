@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server'
 import { GET } from '@/app/api/search/route'
 import { prisma } from '@/lib/db/prisma'
 import { createClient } from '@/lib/supabase/server'
+import { createMockTask, createMockHabit, createMockJournalEntry, createMockFinanceEntry, createMockNote, createMockCalendarEvent, createMockContact } from '../fixtures/factories'
 
 vi.mock('@/lib/supabase/server')
 vi.mock('@/lib/db/prisma', () => ({
@@ -64,7 +65,7 @@ describe('Search API', () => {
 
     it('should search tasks when types include tasks', async () => {
       const mockTasks = [
-        { id: validCuid, title: 'Test Task', description: 'Task description', status: 'TODO', priority: 'HIGH', dueDate: null, updatedAt: new Date() },
+        createMockTask({ id: validCuid, title: 'Test Task', description: 'Task description', status: 'TODO', priority: 'HIGH', dueDate: null }),
       ]
       vi.mocked(prisma.task.findMany).mockResolvedValue(mockTasks)
       vi.mocked(prisma.habit.findMany).mockResolvedValue([])
@@ -87,7 +88,7 @@ describe('Search API', () => {
 
     it('should search habits when types include habits', async () => {
       const mockHabits = [
-        { id: validCuid, name: 'Exercise', description: 'Daily workout', frequency: 'DAILY', color: '#10B981', archived: false, updatedAt: new Date() },
+        createMockHabit({ id: validCuid, name: 'Exercise', description: 'Daily workout', frequency: 'DAILY', color: '#10B981', archived: false }),
       ]
       vi.mocked(prisma.task.findMany).mockResolvedValue([])
       vi.mocked(prisma.habit.findMany).mockResolvedValue(mockHabits)
@@ -109,7 +110,7 @@ describe('Search API', () => {
 
     it('should search journal entries when types include journal', async () => {
       const mockEntries = [
-        { id: validCuid, title: 'My Journal', content: 'Content here', mood: 'HAPPY', date: new Date(), tags: ['personal'], updatedAt: new Date() },
+        createMockJournalEntry({ id: validCuid, title: 'My Journal', content: 'Content here', mood: 'HAPPY', date: new Date(), tags: ['personal'] }),
       ]
       vi.mocked(prisma.task.findMany).mockResolvedValue([])
       vi.mocked(prisma.habit.findMany).mockResolvedValue([])
@@ -130,7 +131,7 @@ describe('Search API', () => {
 
     it('should search finance entries when types include finances', async () => {
       const mockEntries = [
-        { id: validCuid, type: 'EXPENSE', category: 'Food', subcategory: 'Groceries', description: 'Weekly groceries', amount: 50.00, currency: 'USD', date: new Date(), updatedAt: new Date() },
+        createMockFinanceEntry({ id: validCuid, type: 'EXPENSE', category: 'Food', subcategory: 'Groceries', description: 'Weekly groceries', amount: 50.00, currency: 'USD', date: new Date() }),
       ]
       vi.mocked(prisma.task.findMany).mockResolvedValue([])
       vi.mocked(prisma.habit.findMany).mockResolvedValue([])
@@ -151,7 +152,7 @@ describe('Search API', () => {
 
     it('should search notes when types include notes', async () => {
       const mockNotes = [
-        { id: validCuid, title: 'Meeting Notes', content: 'Important meeting notes', color: '#FEF3C7', pinned: false, tags: ['work'], updatedAt: new Date() },
+        createMockNote({ id: validCuid, title: 'Meeting Notes', content: 'Important meeting notes', color: '#FEF3C7', pinned: false, tags: ['work'] }),
       ]
       vi.mocked(prisma.task.findMany).mockResolvedValue([])
       vi.mocked(prisma.habit.findMany).mockResolvedValue([])
@@ -172,7 +173,7 @@ describe('Search API', () => {
 
     it('should search calendar events when types include calendar', async () => {
       const mockEvents = [
-        { id: validCuid, title: 'Team Meeting', description: 'Weekly sync', location: 'Conference Room', startTime: new Date(), endTime: new Date(), allDay: false, color: '#3B82F6', updatedAt: new Date() },
+        createMockCalendarEvent({ id: validCuid, title: 'Team Meeting', description: 'Weekly sync', location: 'Conference Room', startTime: new Date(), endTime: new Date(), allDay: false, color: '#3B82F6' }),
       ]
       vi.mocked(prisma.task.findMany).mockResolvedValue([])
       vi.mocked(prisma.habit.findMany).mockResolvedValue([])
@@ -193,7 +194,7 @@ describe('Search API', () => {
 
     it('should search contacts when types include contacts', async () => {
       const mockContacts = [
-        { id: validCuid, firstName: 'John', lastName: 'Doe', email: 'john@example.com', company: 'Acme Inc', phone: '+1234567890', tags: ['work'], favorite: true, updatedAt: new Date() },
+        createMockContact({ id: validCuid, firstName: 'John', lastName: 'Doe', email: 'john@example.com', company: 'Acme Inc', phone: '+1234567890', tags: ['work'], favorite: true }),
       ]
       vi.mocked(prisma.task.findMany).mockResolvedValue([])
       vi.mocked(prisma.habit.findMany).mockResolvedValue([])
@@ -231,15 +232,9 @@ describe('Search API', () => {
     })
 
     it('should limit results to specified limit', async () => {
-      const mockTasks = Array.from({ length: 10 }, (_, i) => ({
-        id: `clx1234567890abcdef12345${i}`,
-        title: `Task ${i}`,
-        description: 'Task description',
-        status: 'TODO',
-        priority: 'MEDIUM',
-        dueDate: null,
-        updatedAt: new Date(),
-      }))
+      const mockTasks = Array.from({ length: 10 }, (_, i) =>
+        createMockTask({ id: `clx1234567890abcdef12345${i}`, title: `Task ${i}`, status: 'TODO', priority: 'MEDIUM', dueDate: null }),
+      )
       vi.mocked(prisma.task.findMany).mockResolvedValue(mockTasks)
       vi.mocked(prisma.habit.findMany).mockResolvedValue([])
       vi.mocked(prisma.journalEntry.findMany).mockResolvedValue([])
@@ -258,8 +253,8 @@ describe('Search API', () => {
 
     it('should sort results by relevance (title matches first)', async () => {
       const mockTasks = [
-        { id: validCuid, title: 'Test Task', description: 'Description with test', status: 'TODO', priority: 'MEDIUM', dueDate: null, updatedAt: new Date() },
-        { id: 'clx1234567890abcdef123457', title: 'Another Task', description: 'Has test in description', status: 'TODO', priority: 'MEDIUM', dueDate: null, updatedAt: new Date() },
+        createMockTask({ id: validCuid, title: 'Test Task', description: 'Description with test', status: 'TODO', priority: 'MEDIUM', dueDate: null }),
+        createMockTask({ id: 'clx1234567890abcdef123457', title: 'Another Task', description: 'Has test in description', status: 'TODO', priority: 'MEDIUM', dueDate: null }),
       ]
       vi.mocked(prisma.task.findMany).mockResolvedValue(mockTasks)
       vi.mocked(prisma.habit.findMany).mockResolvedValue([])

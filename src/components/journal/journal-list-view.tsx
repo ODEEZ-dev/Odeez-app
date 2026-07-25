@@ -2,11 +2,10 @@
 
 import { useState, useCallback, useMemo } from 'react'
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, addMonths, subMonths, isSameDay, isToday, format } from 'date-fns'
-import { ChevronLeft, ChevronRight, BookOpen, Search, Filter, Calendar } from 'lucide-react'
+import { ChevronLeft, ChevronRight, BookOpen, Search, Calendar } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Select,
@@ -15,10 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { cn } from '@/lib/utils'
 import { JournalCard, JournalCalendarDay } from './journal-card'
 import { JournalEntry } from '@/types'
-import { MOOD_OPTIONS, Mood } from '@/types'
+import { MOOD_OPTIONS } from '@/types'
 
 interface JournalListViewProps {
   entries: JournalEntry[]

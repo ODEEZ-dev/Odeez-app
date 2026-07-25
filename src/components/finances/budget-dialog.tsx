@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cn, numberValueAs } from '@/lib/utils'
+import { Calendar as CalendarIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -193,7 +194,7 @@ export function BudgetDialog({
                     variant="outline"
                     className={cn('w-full justify-start text-left font-normal h-10', errors.startDate && 'border-destructive')}
                   >
-                    <CalendarComponent className="mr-2 h-4 w-4" />
+                    <CalendarIcon className="mr-2 h-4 w-4" />
                     {startDate ? format(startDate, 'MMM d, yyyy') : format(new Date(), 'MMM d, yyyy')}
                   </Button>
                 </PopoverTrigger>
@@ -218,7 +219,7 @@ export function BudgetDialog({
                     variant="outline"
                     className="w-full justify-start text-left font-normal h-10"
                   >
-                    <CalendarComponent className="mr-2 h-4 w-4" />
+                    <CalendarIcon className="mr-2 h-4 w-4" />
                     {endDate ? format(endDate, 'MMM d, yyyy') : 'No end date'}
                   </Button>
                 </PopoverTrigger>

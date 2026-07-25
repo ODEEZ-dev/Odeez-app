@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
-import { Search, Command, ArrowUp, ArrowDown, ExternalLink, Loader2 } from 'lucide-react'
+import { Search, Command, ExternalLink, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
@@ -143,9 +143,9 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16">
+    <div className="fixed inset-0 z-overlay flex items-start justify-center pt-16">
       <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => onOpenChange(false)} />
-      <Card className="w-full max-w-2xl shadow-lg relative">
+      <Card className="w-full max-w-2xl relative">
         <CardContent className="p-0">
           <div className="p-4 border-b">
             <div className="relative">
@@ -193,7 +193,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                         tabIndex={-1}
                       >
                         <div className={cn(
-                          'flex h-8 w-8 items-center justify-center rounded bg-muted/50',
+                          'flex h-8 w-8 items-center justify-center rounded-md bg-muted/50',
                           index === selectedIndex ? 'bg-accent/50' : ''
                         )}>
                           {moduleIcons[result.type]}

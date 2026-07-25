@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import {
   LayoutDashboard,
   CheckSquare,
+  FolderKanban,
   Target,
   BookOpen,
   DollarSign,
@@ -15,6 +16,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  X,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
@@ -27,6 +29,7 @@ const TooltipProviderComp = TooltipPrimitive.Provider
 const navigation = [
   { name: 'Today', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Tasks', href: '/dashboard/tasks', icon: CheckSquare },
+  { name: 'Projects', href: '/dashboard/projects', icon: FolderKanban },
   { name: 'Habits', href: '/dashboard/habits', icon: Target },
   { name: 'Journal', href: '/dashboard/journal', icon: BookOpen },
   { name: 'Finances', href: '/dashboard/finances', icon: DollarSign },
@@ -39,27 +42,29 @@ const navigation = [
 interface SidebarProps {
   collapsed: boolean
   onToggle: () => void
+  mobile?: boolean
 }
 
-export function Sidebar({ collapsed, onToggle }: SidebarProps) {
+export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
   const pathname = usePathname()
 
   return (
     <TooltipProviderComp>
       <aside
         className={cn(
-          'fixed left-0 top-0 z-40 h-screen border-r bg-card transition-all duration-300 flex flex-col',
-          collapsed ? 'w-16' : 'w-64'
+          'fixed left-0 top-0 z-sidebar h-screen border-r bg-card transition-all duration-300 flex flex-col',
+          collapsed ? 'w-16' : 'w-64',
+          mobile ? 'flex' : 'hidden md:flex'
         )}
         aria-label="Main navigation"
       >
         <div className="flex h-16 items-center justify-between px-4 border-b">
           {!collapsed && (
             <Link href="/dashboard" className="flex items-center gap-2 font-semibold text-lg">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <LayoutDashboard className="h-5 w-5 text-primary-foreground" />
+              <div className="h-8 w-8 rounded-md bg-primary flex items-center justify-center">
+                <LayoutDashboard className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span>Basecamp</span>
+              <span className="tracking-tight">Odeez</span>
             </Link>
           )}
           <TooltipRoot>
@@ -67,16 +72,18 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn('h-9 w-9', collapsed && 'mx-auto')}
+                className={cn('h-9 w-9', collapsed && !mobile && 'mx-auto', mobile && 'ml-auto')}
                 onClick={onToggle}
-                aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                aria-label={mobile ? 'Close menu' : collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               >
-                {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+                {mobile ? <X className="h-5 w-5" /> : collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
               </Button>
             </TooltipTriggerComp>
-            <TooltipContentComp side="right" align="center">
-              {collapsed ? 'Expand' : 'Collapse'}
-            </TooltipContentComp>
+            {!mobile && (
+              <TooltipContentComp side="right" align="center">
+                {collapsed ? 'Expand' : 'Collapse'}
+              </TooltipContentComp>
+            )}
           </TooltipRoot>
         </div>
 

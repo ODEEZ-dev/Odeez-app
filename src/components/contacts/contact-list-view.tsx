@@ -1,14 +1,13 @@
 'use client'
 
-import { X, Tag, Star, Mail, Phone, MapPin, Calendar, Building2, Briefcase, MoreVertical, Edit, Trash2, Copy, LayoutGrid, List, Search, Filter, Pin } from 'lucide-react'
-import { useState, useCallback } from 'react'
+import { Tag, Star, Mail, Phone, MapPin, Calendar, Building2, Briefcase, MoreVertical, Edit, Trash2, Copy, LayoutGrid, List, Search, Filter } from 'lucide-react'
+import { useState } from 'react'
 import { Contact } from '@/types'
 import { ContactCard } from '@/components/contacts/contact-card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Textarea } from '@/components/ui/textarea'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -195,8 +194,9 @@ export function ContactListView({
               <CardContent className="py-3">
                 <div className="flex items-center gap-4">
                   <div className="relative flex-shrink-0">
-                    {contact.avatarUrl ? (
-                      <img
+{contact.avatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                         src={contact.avatarUrl}
                         alt={`${contact.firstName} ${contact.lastName || ''}`}
                         className="h-12 w-12 rounded-full object-cover"

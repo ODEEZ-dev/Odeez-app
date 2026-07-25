@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server'
 import { GET, PUT } from '@/app/api/settings/route'
 import { prisma } from '@/lib/db/prisma'
 import { createClient } from '@/lib/supabase/server'
+import { createMockUserSettings } from '../fixtures/factories'
 
 vi.mock('@/lib/supabase/server')
 vi.mock('@/lib/db/prisma', () => ({
@@ -20,26 +21,12 @@ const mockCreateClient = vi.mocked(createClient)
 describe('Settings API', () => {
   const mockUser = { id: 'user-1', email: 'test@example.com' }
   const mockSession = { access_token: 'mock-token' }
-  const validSettings = {
+  const validSettings = createMockUserSettings({
     id: 'clx1234567890abcdef123456',
     userId: 'user-1',
-    emailNotifications: true,
-    pushNotifications: true,
-    dailyDigest: false,
-    weeklyReport: true,
-    defaultTaskPriority: 'MEDIUM',
-    defaultTaskView: 'LIST',
-    weekStartsOn: 0,
-    habitReminderTime: '09:00',
-    defaultCurrency: 'USD',
-    budgetAlertThreshold: 80,
-    calendarView: 'WEEK',
-    showWeekends: true,
-    profilePublic: false,
-    dataSharing: false,
-    createdAt: '2026-07-18T04:44:08.202Z',
-    updatedAt: '2026-07-18T04:44:08.202Z',
-  }
+    createdAt: new Date('2026-07-18T04:44:08.202Z'),
+    updatedAt: new Date('2026-07-18T04:44:08.202Z'),
+  })
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -64,7 +51,7 @@ describe('Settings API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data).toEqual(validSettings)
+      expect(data).toEqual(JSON.parse(JSON.stringify(validSettings)))
       expect(prisma.userSettings.findUnique).toHaveBeenCalledWith({
         where: { userId: 'user-1' },
       })
@@ -79,7 +66,7 @@ describe('Settings API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(200)
-      expect(data).toEqual(validSettings)
+      expect(data).toEqual(JSON.parse(JSON.stringify(validSettings)))
       expect(prisma.userSettings.create).toHaveBeenCalledWith({
         data: { userId: 'user-1' },
       })
@@ -103,7 +90,7 @@ describe('Settings API', () => {
 
   describe('PUT /api/settings', () => {
     it('should update settings for authenticated user', async () => {
-      const updatedSettings = { ...validSettings, emailNotifications: false, defaultCurrency: 'EUR' }
+      const updatedSettings = createMockUserSettings({ ...validSettings, emailNotifications: false, defaultCurrency: 'EUR' })
       vi.mocked(prisma.userSettings.upsert).mockResolvedValue(updatedSettings)
 
       const request = new NextRequest(new URL('http://localhost/api/settings'), {

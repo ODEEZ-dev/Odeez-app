@@ -1,6 +1,6 @@
 'use client'
 
-import { Mail, Phone, Building2, Briefcase, Calendar, Star, MapPin, Edit, Trash2, Copy, MessageSquare, MoreVertical } from 'lucide-react'
+import { Mail, Phone, Building2, Briefcase, Calendar, Star, MapPin, Edit, Trash2, Copy, MoreVertical } from 'lucide-react'
 import { Contact } from '@/types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -13,7 +13,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
 
 interface ContactCardProps {
   contact: Contact
@@ -33,7 +32,7 @@ export function ContactCard({
   const initials = `${contact.firstName.charAt(0)}${contact.lastName?.charAt(0) || ''}`.toUpperCase()
 
   return (
-    <Card className="group relative overflow-hidden transition-all hover:shadow-lg">
+    <Card className="group relative overflow-hidden transition-colors hover:bg-accent/30">
       <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
         <Tooltip>
           <TooltipTrigger asChild>
@@ -84,6 +83,7 @@ export function ContactCard({
         <div className="flex items-start gap-4">
           <div className="relative flex-shrink-0">
             {contact.avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={contact.avatarUrl}
                 alt={`${contact.firstName} ${contact.lastName || ''}`}

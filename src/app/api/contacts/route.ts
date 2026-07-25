@@ -15,8 +15,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const query = contactQuerySchema.parse(Object.fromEntries(searchParams)) as ContactQueryInput
 
-    console.log('Parsed query:', JSON.stringify(query, null, 2))
-
     const where: Record<string, unknown> = { userId: user.id }
 
     if (query.favorite !== undefined) where.favorite = query.favorite
@@ -35,8 +33,6 @@ export async function GET(request: Request) {
 
     const orderBy: Record<string, 'asc' | 'desc'> = {}
     orderBy[query.sortBy] = query.sortOrder
-
-    console.log('About to call findMany with where:', JSON.stringify(where), 'orderBy:', JSON.stringify(orderBy))
 
     const [contacts, total] = await Promise.all([
       prisma.contact.findMany({

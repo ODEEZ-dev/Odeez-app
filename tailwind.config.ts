@@ -71,24 +71,32 @@ const config: Config = {
           to: { opacity: '0' },
         },
         'slide-in-from-top': {
-          from: { transform: 'translateY(-10px)', opacity: '0' },
+          from: { transform: 'translateY(-8px)', opacity: '0' },
           to: { transform: 'translateY(0)', opacity: '1' },
         },
         'slide-in-from-bottom': {
-          from: { transform: 'translateY(10px)', opacity: '0' },
+          from: { transform: 'translateY(8px)', opacity: '0' },
           to: { transform: 'translateY(0)', opacity: '1' },
         },
         'slide-in-from-left': {
-          from: { transform: 'translateX(-10px)', opacity: '0' },
+          from: { transform: 'translateX(-8px)', opacity: '0' },
           to: { transform: 'translateX(0)', opacity: '1' },
         },
         'slide-in-from-right': {
-          from: { transform: 'translateX(10px)', opacity: '0' },
+          from: { transform: 'translateX(8px)', opacity: '0' },
           to: { transform: 'translateX(0)', opacity: '1' },
+        },
+        'card-enter': {
+          from: { transform: 'translateY(12px)', opacity: '0' },
+          to: { transform: 'translateY(0)', opacity: '1' },
         },
         'pulse-subtle': {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.7' },
+        },
+        'press-down': {
+          from: { transform: 'scale(1)' },
+          to: { transform: 'scale(0.98)' },
         },
       },
       animation: {
@@ -100,7 +108,17 @@ const config: Config = {
         'slide-in-from-bottom': 'slide-in-from-bottom 0.3s ease-out',
         'slide-in-from-left': 'slide-in-from-left 0.3s ease-out',
         'slide-in-from-right': 'slide-in-from-right 0.3s ease-out',
+        'card-enter': 'card-enter 0.4s ease-out',
         'pulse-subtle': 'pulse-subtle 2s ease-in-out infinite',
+        'press-down': 'press-down 0.1s ease-out',
+      },
+      zIndex: {
+        header: 'var(--z-header)',
+        sidebar: 'var(--z-sidebar)',
+        overlay: 'var(--z-overlay)',
+        modal: 'var(--z-modal)',
+        toast: 'var(--z-toast)',
+        tooltip: 'var(--z-tooltip)',
       },
     },
   },

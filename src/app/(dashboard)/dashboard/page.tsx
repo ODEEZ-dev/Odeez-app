@@ -228,61 +228,79 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <TodayStatCard
-          label="Tasks Due Today"
-          value={stats.tasksDueToday}
-          icon={<CheckSquare className="h-6 w-6 text-blue-500" />}
-          color="text-blue-500"
-          bgColor="bg-blue-100 dark:bg-blue-900/30"
-          trend={stats.completedTasksToday > 0 ? { value: stats.completedTasksToday, label: 'completed' } : undefined}
-          href="/dashboard/tasks"
-        />
-        <TodayStatCard
-          label="Habit Progress"
-          value={`${stats.habitsProgress}%`}
-          icon={<Target className="h-6 w-6 text-orange-500" />}
-          color="text-orange-500"
-          bgColor="bg-orange-100 dark:bg-orange-900/30"
-          trend={stats.habitsCompleted > 0 ? { value: stats.habitsCompleted, label: 'done' } : undefined}
-          href="/dashboard/habits"
-        />
-        <TodayStatCard
-          label="Events Today"
-          value={stats.eventsToday}
-          icon={<Calendar className="h-6 w-6 text-purple-500" />}
-          color="text-purple-500"
-          bgColor="bg-purple-100 dark:bg-purple-900/30"
-          href="/dashboard/calendar"
-        />
-        <TodayStatCard
-          label="This Month"
-          value={`$${stats.balanceThisMonth.toLocaleString()}`}
-          icon={stats.balanceThisMonth >= 0 ? (
-            <TrendingUp className="h-6 w-6 text-green-500" />
-          ) : (
-            <TrendingDown className="h-6 w-6 text-red-500" />
-          )}
-          color={stats.balanceThisMonth >= 0 ? 'text-green-500' : 'text-red-500'}
-          bgColor={stats.balanceThisMonth >= 0 ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}
-          href="/dashboard/finances"
-        />
+        <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '0ms' }}>
+          <TodayStatCard
+            label="Tasks Due Today"
+            value={stats.tasksDueToday}
+            icon={<CheckSquare className="h-6 w-6 text-blue-500" />}
+            color="text-blue-500"
+            bgColor="bg-blue-100 dark:bg-blue-900/30"
+            trend={stats.completedTasksToday > 0 ? { value: stats.completedTasksToday, label: 'completed' } : undefined}
+            href="/dashboard/tasks"
+          />
+        </div>
+        <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '75ms' }}>
+          <TodayStatCard
+            label="Habit Progress"
+            value={`${stats.habitsProgress}%`}
+            icon={<Target className="h-6 w-6 text-orange-500" />}
+            color="text-orange-500"
+            bgColor="bg-orange-100 dark:bg-orange-900/30"
+            trend={stats.habitsCompleted > 0 ? { value: stats.habitsCompleted, label: 'done' } : undefined}
+            href="/dashboard/habits"
+          />
+        </div>
+        <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '150ms' }}>
+          <TodayStatCard
+            label="Events Today"
+            value={stats.eventsToday}
+            icon={<Calendar className="h-6 w-6 text-purple-500" />}
+            color="text-purple-500"
+            bgColor="bg-purple-100 dark:bg-purple-900/30"
+            href="/dashboard/calendar"
+          />
+        </div>
+        <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '225ms' }}>
+          <TodayStatCard
+            label="This Month"
+            value={`$${stats.balanceThisMonth.toLocaleString()}`}
+            icon={stats.balanceThisMonth >= 0 ? (
+              <TrendingUp className="h-6 w-6 text-green-500" />
+            ) : (
+              <TrendingDown className="h-6 w-6 text-red-500" />
+            )}
+            color={stats.balanceThisMonth >= 0 ? 'text-green-500' : 'text-red-500'}
+            bgColor={stats.balanceThisMonth >= 0 ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}
+            href="/dashboard/finances"
+          />
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <TodayTaskList tasks={tasks.dueToday} overdue={tasks.overdue} />
-        <TodayHabitList habits={habits} />
+        <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '300ms' }}>
+          <TodayTaskList tasks={tasks.dueToday} overdue={tasks.overdue} />
+        </div>
+        <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '375ms' }}>
+          <TodayHabitList habits={habits} />
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <TodayEventsCard className="lg:col-span-2" events={events} />
-        <TodayJournalCard journal={journal} />
+        <div className="lg:col-span-2 animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '450ms' }}>
+          <TodayEventsCard events={events} />
+        </div>
+        <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '525ms' }}>
+          <TodayJournalCard journal={journal} />
+        </div>
       </div>
 
-      <TodayFinanceCard
-        income={stats.incomeThisMonth}
-        expenses={stats.expensesThisMonth}
-        balance={stats.balanceThisMonth}
-      />
+      <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '600ms' }}>
+        <TodayFinanceCard
+          income={stats.incomeThisMonth}
+          expenses={stats.expensesThisMonth}
+          balance={stats.balanceThisMonth}
+        />
+      </div>
     </div>
   )
 }
