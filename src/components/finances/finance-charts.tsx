@@ -54,17 +54,15 @@ export function FinanceOverviewChart({ entries, currency = 'USD' }: FinanceChart
 
   const monthlyData = entries.reduce((acc, entry) => {
     const month = new Date(entry.date).toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
-    const existing = acc.find((d) => d.month === month)
-    const type = entry.type as 'INCOME' | 'EXPENSE' | 'TRANSFER' | 'INVESTMENT'
-    const amount = Number(entry.amount)
-
-    if (existing) {
-      existing[type] = (existing[type] || 0) + amount
-    } else {
-      acc.push({ month, [type]: amount })
+    let existing = acc.find((d) => d.month === month)
+    if (!existing) {
+      existing = { month, INCOME: 0, EXPENSE: 0, TRANSFER: 0, INVESTMENT: 0 }
+      acc.push(existing)
     }
+    const type = entry.type as 'INCOME' | 'EXPENSE' | 'TRANSFER' | 'INVESTMENT'
+    existing[type] += Number(entry.amount)
     return acc
-  }, [] as Array<{ month: string; INCOME?: number; EXPENSE?: number; TRANSFER?: number; INVESTMENT?: number }>)
+  }, [] as Array<{ month: string; INCOME: number; EXPENSE: number; TRANSFER: number; INVESTMENT: number }>)
 
   return (
     <Card>
@@ -347,6 +345,7 @@ export function SavingsRateChart({ entries }: FinanceChartProps) {
                 tickFormatter={(value) => `${value.toFixed(0)}%`}
                 domain={['auto', 'auto']}
               />
+              <YAxis yAxisId="right" orientation="right" />
               <Tooltip
                 formatter={(value: number) => [value.toFixed(1) + '%', 'Savings Rate']}
                 labelFormatter={(label) => label}
