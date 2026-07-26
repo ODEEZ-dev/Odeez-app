@@ -246,7 +246,7 @@ export function FinanceListView({
                   filteredEntries.map((entry) => (
                     <tr key={entry.id} className="hover:bg-accent/50 transition-colors">
                       <td className="py-3 px-4 text-sm whitespace-nowrap">
-                        {format(entry.date, 'MMM d, yyyy')}
+                        {format(new Date(entry.date), 'MMM d, yyyy')}
                       </td>
                       <td className="py-3 px-4 text-sm font-medium">{entry.description ?? ''}</td>
                       <td className="py-3 px-4 text-sm text-muted-foreground">{entry.category}</td>
