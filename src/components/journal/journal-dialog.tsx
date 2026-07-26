@@ -20,14 +20,14 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { journalEntryCreateSchema, JournalEntryCreateInput } from '@/lib/validations/journal'
+import { journalEntryCreateSchema, journalEntryUpdateSchema, JournalEntryCreateInput, JournalEntryUpdateInput } from '@/lib/validations/journal'
 import { JournalEditor } from './journal-editor'
 import { MOOD_OPTIONS, Mood } from '@/types'
 
 interface JournalDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSubmit: (data: JournalEntryCreateInput) => Promise<void>
+  onSubmit: (data: JournalEntryCreateInput | JournalEntryUpdateInput) => Promise<void>
   initialData?: Partial<JournalEntryCreateInput> | null
   isLoading?: boolean
 }
@@ -63,8 +63,8 @@ export function JournalDialog({
     setValue,
     watch,
     formState: { errors },
-  } = useForm<JournalEntryCreateInput>({
-    resolver: zodResolver(journalEntryCreateSchema),
+  } = useForm<JournalEntryCreateInput | JournalEntryUpdateInput>({
+    resolver: zodResolver(initialData ? journalEntryUpdateSchema : journalEntryCreateSchema),
     defaultValues: {
       title: '',
       content: '',
@@ -118,7 +118,7 @@ export function JournalDialog({
     }
   }
 
-  const onFormSubmit = async (data: JournalEntryCreateInput) => {
+  const onFormSubmit = async (data: JournalEntryCreateInput | JournalEntryUpdateInput) => {
     const submitData = {
       ...data,
       date: selectedDate,
@@ -162,7 +162,7 @@ export function JournalDialog({
           <div className="space-y-2">
             <Label>Content *</Label>
             <JournalEditor
-              content={content}
+              content={content || ''}
               onChange={(html) => setValue('content', html, { shouldValidate: true })}
               className="min-h-[300px]"
             />

@@ -186,11 +186,11 @@ export default function JournalPage() {
     setDialogOpen(true)
   }, [])
 
-  const handleDialogSubmit = useCallback(async (entryData: JournalEntryCreateInput) => {
+  const handleDialogSubmit = useCallback(async (entryData: JournalEntryCreateInput | JournalEntryUpdateInput) => {
     if (editingEntry) {
       updateMutation.mutate({ id: editingEntry.id, data: entryData })
     } else {
-      await createMutation.mutateAsync(entryData)
+      await createMutation.mutateAsync(entryData as JournalEntryCreateInput)
     }
     setEditingEntry(null)
     setDialogOpen(false)

@@ -76,12 +76,10 @@ export async function POST(request: Request) {
     const body = await request.json()
     const validated = journalEntryCreateSchema.parse(body) as JournalEntryCreateInput
 
-    const entry = await prisma.journalEntry.create({
-      data: {
-        ...validated,
-        date: new Date(validated.date),
-        userId: user.id,
-      },
+    const entry = await prisma.journalEntry.upsert({
+      where: { userId_date: { userId: user.id, date: new Date(validated.date) } },
+      update: { ...validated, date: new Date(validated.date) },
+      create: { ...validated, date: new Date(validated.date), userId: user.id },
     })
 
     return NextResponse.json(entry, { status: 201 })
