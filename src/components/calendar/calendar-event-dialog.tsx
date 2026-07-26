@@ -93,7 +93,7 @@ export function CalendarEventDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <DialogHeader className="pb-4">
             <DialogTitle>{initialData ? 'Edit Event' : 'New Event'}</DialogTitle>

@@ -232,7 +232,7 @@ export function BudgetDialog({
                     selected={endDate}
                     onSelect={(date) => {
                       setEndDate(date)
-                      setValue('endDate', date ? format(date, 'yyyy-MM-dd') : '')
+                      setValue('endDate', date ? format(date, 'yyyy-MM-dd') : undefined)
                     }}
                     initialFocus
                   />
