@@ -36,12 +36,17 @@ export function NoteCard({
   return (
     <Card
       className={cn(
-        'transition-colors hover:bg-accent/30',
-        note.pinned && 'ring-2 ring-amber-400/50 relative',
+        'relative transition-colors hover:bg-accent/30',
+        note.pinned && 'ring-2 ring-amber-400/50',
         note.archived && 'opacity-60'
       )}
-      style={{ backgroundColor: note.color }}
     >
+      {note.color && (
+        <div
+          className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full z-10"
+          style={{ backgroundColor: note.color }}
+        />
+      )}
       <CardContent className="pt-6 pb-4">
         <div className="flex items-start justify-between gap-2 mb-3">
           <h3 className="font-semibold text-base line-clamp-1 pr-2">{note.title}</h3>

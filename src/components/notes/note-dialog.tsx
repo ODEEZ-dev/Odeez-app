@@ -180,13 +180,13 @@ export function NoteDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-hidden">
-        <form onSubmit={handleSubmit}>
+      <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           <DialogHeader className="pb-4">
             <DialogTitle>{initialData ? 'Edit Note' : 'New Note'}</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4 py-4">
+          <div className="flex-1 space-y-4 py-4 overflow-y-auto">
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
               <Input

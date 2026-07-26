@@ -16,6 +16,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { NoteCard } from './note-card'
 import { Note } from '@/types'
+import { cn } from '@/lib/utils'
 
 interface NoteListViewProps {
   notes: Note[]
@@ -176,7 +177,13 @@ export function NoteListView({
       ) : (
         <div className="space-y-2">
           {sortedNotes.map((note) => (
-            <Card key={note.id} className={note.pinned ? 'ring-2 ring-amber-400/50' : ''} style={{ backgroundColor: note.color }}>
+            <Card key={note.id} className={cn('relative', note.pinned && 'ring-2 ring-amber-400/50')}>
+              {note.color && (
+                <div
+                  className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full"
+                  style={{ backgroundColor: note.color }}
+                />
+              )}
               <CardContent className="py-3">
                 <div className="flex items-start gap-4">
                   <div className="flex-1 min-w-0">
