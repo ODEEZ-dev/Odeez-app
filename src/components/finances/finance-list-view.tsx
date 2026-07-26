@@ -38,6 +38,7 @@ interface FinanceListViewProps {
   onDelete: (entryId: string) => void
   onAddEntry: () => void
   onAddBudget: () => void
+  onDeleteBudget?: (budgetId: string) => void
   isLoading?: boolean
 }
 
@@ -48,6 +49,7 @@ export function FinanceListView({
   onDelete,
   onAddEntry,
   onAddBudget,
+  onDeleteBudget,
   isLoading,
 }: FinanceListViewProps) {
   const [searchQuery, setSearchQuery] = useState('')
@@ -217,7 +219,7 @@ export function FinanceListView({
           {budgets.length > 0 && (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {budgets.map((budget) => (
-                <BudgetProgressChart key={budget.id} budgets={[budget]} />
+                <BudgetProgressChart key={budget.id} budgets={[budget]} onDelete={onDeleteBudget} />
               ))}
             </div>
           )}

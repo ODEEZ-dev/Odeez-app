@@ -167,6 +167,23 @@ async function updateBudget(id: string, data: BudgetUpdateInput): Promise<Budget
   return response.json()
 }
 
+async function deleteBudget(id: string): Promise<void> {
+  const supabase = createClient()
+  const { data: { session } } = await supabase.auth.getSession()
+
+  const response = await fetch(`/api/budgets/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${session?.access_token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.error || 'Failed to delete budget')
+  }
+}
+
 export default function FinancesPage() {
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
@@ -273,6 +290,17 @@ export default function FinancesPage() {
     },
   })
 
+  const budgetDeleteMutation = useMutation({
+    mutationFn: deleteBudget,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budgets'] })
+      toast({ title: 'Budget deleted' })
+    },
+    onError: (error: Error) => {
+      toast({ title: 'Failed to delete budget', description: error.message, variant: 'destructive' })
+    },
+  })
+
   const handleEntryDelete = useCallback((entryId: string) => {
     if (confirm('Are you sure you want to delete this transaction?')) {
       deleteMutation.mutate(entryId)
@@ -293,6 +321,12 @@ export default function FinancesPage() {
     setEditingBudget(null)
     setBudgetDialogOpen(true)
   }, [])
+
+  const handleBudgetDelete = useCallback((budgetId: string) => {
+    if (confirm('Are you sure you want to delete this budget?')) {
+      budgetDeleteMutation.mutate(budgetId)
+    }
+  }, [budgetDeleteMutation])
 
   const handleDialogSubmit = useCallback(async (entryData: FinanceEntryCreateInput) => {
     if (editingEntry) {
@@ -457,6 +491,7 @@ export default function FinancesPage() {
             onDelete={handleEntryDelete}
             onAddEntry={handleAddEntry}
             onAddBudget={handleAddBudget}
+            onDeleteBudget={handleBudgetDelete}
           />
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2">
@@ -504,7 +539,7 @@ export default function FinancesPage() {
               </CardContent>
             </Card>
           ) : (
-            <BudgetProgressChart budgets={budgets} />
+            <BudgetProgressChart budgets={budgets} onDelete={handleBudgetDelete} />
           )}
         </TabsContent>
 

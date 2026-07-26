@@ -18,8 +18,10 @@ import {
   Area,
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { formatCurrency } from '@/lib/utils'
 import { TRANSACTION_TYPE_OPTIONS, Budget } from '@/types'
+import { Trash2 } from 'lucide-react'
 
 interface FinanceChartProps {
   entries: Array<{
@@ -249,7 +251,7 @@ export function IncomeExpenseTrendChart({ entries, currency = 'USD' }: FinanceCh
   )
 }
 
-export function BudgetProgressChart({ budgets }: { budgets: Budget[] }) {
+export function BudgetProgressChart({ budgets, onDelete }: { budgets: Budget[]; onDelete?: (id: string) => void }) {
   if (!budgets || budgets.length === 0) return null
 
   const activeBudgets = budgets
@@ -273,9 +275,16 @@ export function BudgetProgressChart({ budgets }: { budgets: Budget[] }) {
               <div key={budget.id} className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="font-medium">{budget.name} ({budget.category})</span>
-                  <span className={isOverBudget ? 'text-red-600 font-semibold' : 'text-muted-foreground'}>
-                    {percentage}%
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={isOverBudget ? 'text-red-600 font-semibold' : 'text-muted-foreground'}>
+                      {percentage}%
+                    </span>
+                    {onDelete && (
+                      <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-destructive" onClick={() => onDelete(budget.id)}>
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    )}
+                  </div>
                 </div>
                 <div className="h-3 bg-muted rounded-full overflow-hidden">
                   <div
