@@ -34,7 +34,7 @@ export const habitQuerySchema = z.object({
 export const habitLogCreateSchema = z.object({
   habitId: z.string().cuid(),
   date: z.string().date(),
-  count: z.number().int().positive().default(1),
+  count: z.number().int().min(0).default(1),
   notes: z.string().max(2000).optional(),
 })
 

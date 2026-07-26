@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/db/prisma'
 import { habitCreateSchema, habitQuerySchema, HabitCreateInput, HabitQueryInput } from '@/lib/validations/habit'
+import { isSameDay } from 'date-fns'
 
 export async function GET(request: Request) {
   try {
@@ -51,7 +52,7 @@ export async function GET(request: Request) {
 
     const habitsWithProgress = habits.map((habit) => {
       const logs = habit.logs
-      const todayLog = logs.find((log) => log.date.getTime() === today.getTime())
+      const todayLog = logs.find((log) => isSameDay(log.date, today))
       const todayCount = todayLog?.count || 0
       const completedToday = todayCount >= habit.targetCount
       const progress = Math.min(100, Math.round((todayCount / habit.targetCount) * 100))

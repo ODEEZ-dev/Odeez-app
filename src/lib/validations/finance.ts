@@ -18,7 +18,7 @@ export const financeEntryUpdateSchema = financeEntryCreateSchema.partial().exten
 })
 
 export const financeEntryQuerySchema = z.object({
-  type: z.enum(['INCOME', 'EXPENSE', 'TRANSFER']).optional(),
+  type: z.enum(['INCOME', 'EXPENSE', 'TRANSFER', 'INVESTMENT']).optional(),
   category: z.string().optional(),
   subcategory: z.string().optional(),
   dateFrom: z.string().date().optional(),

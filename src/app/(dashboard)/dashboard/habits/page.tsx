@@ -19,6 +19,7 @@ import { HabitDialog } from '@/components/habits/habit-dialog'
 import { HabitHeatmap } from '@/components/habits/habit-heatmap'
 import { Habit, HabitEntry } from '@/types'
 import { HabitCreateInput, HabitUpdateInput } from '@/lib/validations/habit'
+import { format } from 'date-fns'
 import { toast } from '@/hooks/use-toast'
 
 interface HabitsResponse {
@@ -130,7 +131,7 @@ async function toggleHabitComplete(habit: HabitWithStats): Promise<void> {
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const dateStr = today.toISOString().split('T')[0]
+  const dateStr = format(today, 'yyyy-MM-dd')
 
   const response = await fetch(`/api/habits/${habit.id}/logs`, {
     method: 'POST',

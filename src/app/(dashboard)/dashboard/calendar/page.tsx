@@ -197,9 +197,17 @@ export default function CalendarPage() {
 
   const handleDialogSubmit = useCallback(async (eventData: CalendarEventCreateInput | CalendarEventUpdateInput) => {
     if (editingEvent) {
-      updateMutation.mutate({ id: editingEvent.id, data: eventData })
+      try {
+        await updateMutation.mutateAsync({ id: editingEvent.id, data: eventData })
+      } catch (error) {
+        return
+      }
     } else {
-      await createMutation.mutateAsync(eventData as CalendarEventCreateInput)
+      try {
+        await createMutation.mutateAsync(eventData as CalendarEventCreateInput)
+      } catch (error) {
+        return
+      }
     }
     setEditingEvent(null)
     setDialogOpen(false)
@@ -459,8 +467,8 @@ export default function CalendarPage() {
           ? {
               title: editingEvent.title,
               description: editingEvent.description ?? undefined,
-              startTime: editingEvent.startTime.toISOString().slice(0, 16),
-              endTime: editingEvent.endTime.toISOString().slice(0, 16),
+              startTime: new Date(editingEvent.startTime).toISOString().slice(0, 16),
+              endTime: new Date(editingEvent.endTime).toISOString().slice(0, 16),
               allDay: editingEvent.allDay,
               location: editingEvent.location ?? undefined,
               color: editingEvent.color ?? '#3B82F6',

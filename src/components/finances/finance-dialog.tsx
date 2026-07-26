@@ -230,9 +230,12 @@ export function FinanceDialog({
               <PopoverContent className="w-auto p-0" align="start">
                 <CalendarComponent
                   mode="single"
-                  selected={dueDate}
-                  onSelect={setDueDate}
-                  initialFocus
+selected={dueDate}
+                    onSelect={(date) => {
+                      setDueDate(date)
+                      setValue('date', date ? format(date, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'))
+                    }}
+                    initialFocus
                 />
               </PopoverContent>
             </Popover>

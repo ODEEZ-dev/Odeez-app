@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/db/prisma'
 import { habitUpdateSchema, habitIdParamSchema, HabitUpdateInput } from '@/lib/validations/habit'
+import { isSameDay } from 'date-fns'
 
 export async function GET(
   request: Request,
@@ -35,7 +36,7 @@ export async function GET(
     const logs = habit.logs
     const today = new Date()
     today.setHours(0, 0, 0, 0)
-    const todayLog = logs.find((log) => log.date.getTime() === today.getTime())
+    const todayLog = logs.find((log) => isSameDay(log.date, today))
 
     let streak = 0
     const sortedLogs = [...logs].sort((a, b) => b.date.getTime() - a.date.getTime())

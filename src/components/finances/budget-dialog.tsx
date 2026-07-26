@@ -71,7 +71,7 @@ export function BudgetDialog({
       currency: 'USD',
       period: 'MONTHLY',
       startDate: format(new Date(), 'yyyy-MM-dd'),
-      endDate: '',
+      endDate: undefined,
       alertThreshold: 80,
     },
   })
@@ -87,7 +87,7 @@ export function BudgetDialog({
         currency: initialData.currency || 'USD',
         period: initialData.period || 'MONTHLY',
         startDate: initialData.startDate || format(new Date(), 'yyyy-MM-dd'),
-        endDate: initialData.endDate || '',
+        endDate: initialData.endDate || undefined,
         alertThreshold: initialData.alertThreshold || 80,
       })
       setStartDate(start)
@@ -202,7 +202,10 @@ export function BudgetDialog({
                   <CalendarComponent
                     mode="single"
                     selected={startDate}
-                    onSelect={setStartDate}
+                    onSelect={(date) => {
+                      setStartDate(date)
+                      setValue('startDate', date ? format(date, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'))
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
@@ -227,7 +230,10 @@ export function BudgetDialog({
                   <CalendarComponent
                     mode="single"
                     selected={endDate}
-                    onSelect={setEndDate}
+                    onSelect={(date) => {
+                      setEndDate(date)
+                      setValue('endDate', date ? format(date, 'yyyy-MM-dd') : '')
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
