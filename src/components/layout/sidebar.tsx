@@ -52,19 +52,19 @@ export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
     <TooltipProviderComp>
       <aside
         className={cn(
-          'fixed left-0 top-0 z-sidebar h-screen border-r border-black/10 bg-[#20242a] text-white transition-all duration-300 flex flex-col',
+          'fixed left-0 top-0 z-sidebar h-screen border-r bg-card transition-all duration-300 flex flex-col',
           collapsed ? 'w-16' : 'w-64',
           mobile ? 'flex' : 'hidden md:flex'
         )}
         aria-label="Main navigation"
       >
-        <div className="flex h-20 items-center justify-between px-4 border-b border-white/10">
+        <div className="flex h-16 items-center justify-between px-4 border-b">
           {!collapsed && (
-            <Link href="/dashboard" className="flex items-center gap-3 font-semibold text-lg">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#f4c94f] text-[#20242a] shadow-[0_0_0_4px_rgba(244,201,79,0.12)]">
-                <LayoutDashboard className="h-4 w-4" />
+            <Link href="/dashboard" className="flex items-center gap-2 font-semibold text-lg">
+              <div className="h-8 w-8 rounded-md bg-primary flex items-center justify-center">
+                <LayoutDashboard className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="tracking-tight text-white">Odeez</span>
+              <span className="tracking-tight">Odeez</span>
             </Link>
           )}
           <TooltipRoot>
@@ -72,7 +72,7 @@ export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn('h-9 w-9 text-white/60 hover:bg-white/10 hover:text-white', collapsed && !mobile && 'mx-auto', mobile && 'ml-auto')}
+                className={cn('h-9 w-9', collapsed && !mobile && 'mx-auto', mobile && 'ml-auto')}
                 onClick={onToggle}
                 aria-label={mobile ? 'Close menu' : collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               >
@@ -100,10 +100,10 @@ export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
                       <Link
                         href={item.href}
                         className={cn(
-                          'flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all',
+                          'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                           isActive
-                            ? 'bg-[#f4c94f] text-[#20242a] shadow-[0_8px_20px_-12px_rgba(244,201,79,0.8)]'
-                            : 'text-white/55 hover:bg-white/10 hover:text-white',
+                            ? 'bg-primary text-primary-foreground'
+                            : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
                           collapsed && 'justify-center'
                         )}
                         aria-current={isActive ? 'page' : undefined}
@@ -119,10 +119,10 @@ export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
                   <Link
                     href={item.href}
                     className={cn(
-                      'flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all',
+                      'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                       isActive
-                        ? 'bg-[#f4c94f] text-[#20242a] shadow-[0_8px_20px_-12px_rgba(244,201,79,0.8)]'
-                        : 'text-white/55 hover:bg-white/10 hover:text-white',
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
                     )}
                     aria-current={isActive ? 'page' : undefined}
                   >
@@ -135,10 +135,10 @@ export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
           })}
         </nav>
 
-        <div className="border-t border-white/10 p-4">
-          <div className={cn('rounded-xl bg-white/5 p-3 text-center', collapsed && 'px-0')}>
+        <div className="p-4 border-t">
+          <div className={cn('rounded-lg p-3 text-center', collapsed && 'px-0')}>
             {!collapsed && (
-              <p className="text-xs text-white/45">
+              <p className="text-xs text-muted-foreground">
                 Press <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">⌘K</kbd> to search
               </p>
             )}
