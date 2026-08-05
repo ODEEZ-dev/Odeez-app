@@ -93,14 +93,13 @@ export async function GET() {
         select: { habitId: true, count: true },
       }),
 
-      // Journal entry for today
-      prisma.journalEntry.findUnique({
+      // Latest journal entry for today
+      prisma.journalEntry.findFirst({
         where: {
-          userId_date: {
-            userId: user.id,
-            date: startOfDay,
-          },
+          userId: user.id,
+          date: { gte: startOfDay, lte: endOfDay },
         },
+        orderBy: { createdAt: 'desc' },
         select: { id: true, title: true, content: true, mood: true, moodScore: true },
       }),
 
