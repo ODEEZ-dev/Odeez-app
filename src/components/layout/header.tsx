@@ -45,12 +45,12 @@ export function Header({ sidebarCollapsed, onMobileMenuToggle }: { sidebarCollap
   return (
     <header
       className={cn(
-        'fixed top-0 right-0 z-header h-16 border-b bg-background/85 backdrop-blur-md transition-all duration-300',
+        'fixed top-0 right-0 z-header h-20 border-b border-border/70 bg-background/85 backdrop-blur-md transition-all duration-300',
         'left-0 lg:left-16',
         !sidebarCollapsed && 'lg:left-64'
       )}
     >
-      <div className="flex h-full items-center justify-between px-4">
+      <div className="flex h-full items-center justify-between px-4 md:px-7">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
@@ -61,6 +61,10 @@ export function Header({ sidebarCollapsed, onMobileMenuToggle }: { sidebarCollap
           >
             <Menu className="h-5 w-5" />
           </Button>
+          <div className="hidden items-center gap-2 md:flex">
+            <span className="dashboard-label">Workspace</span>
+            <span className="text-sm font-medium text-foreground/70">My personal rhythm</span>
+          </div>
           <CommandPaletteTrigger />
         </div>
 
@@ -68,7 +72,7 @@ export function Header({ sidebarCollapsed, onMobileMenuToggle }: { sidebarCollap
           {/* Notifications */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
+              <Button variant="ghost" size="icon" className="relative rounded-xl hover:bg-muted" aria-label="Notifications">
                 <Bell className="h-5 w-5" />
                 <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive" />
               </Button>
@@ -102,7 +106,7 @@ export function Header({ sidebarCollapsed, onMobileMenuToggle }: { sidebarCollap
           {/* User dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+              <Button variant="ghost" className="relative h-10 w-10 rounded-xl bg-foreground text-background hover:bg-foreground/90">
                 <User className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>

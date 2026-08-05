@@ -22,14 +22,14 @@ interface TodayStatCardProps {
 
 export function TodayStatCard({ label, value, icon, color, bgColor, loading, trend, href }: TodayStatCardProps) {
   const content = (
-    <CardContent className="flex items-center justify-between p-6">
+    <CardContent className="flex items-center justify-between p-5">
       <div>
-        <p className="text-sm font-medium text-muted-foreground">{label}</p>
+        <p className="dashboard-label">{label}</p>
         {loading ? (
           <Skeleton className="h-8 w-24 mt-1" />
         ) : (
           <>
-            <p className="text-2xl font-semibold tracking-tight mt-1">{value}</p>
+            <p className="mt-2 text-3xl font-semibold tracking-[-0.04em]">{value}</p>
             {trend && (
               <p className={cn('text-sm mt-1 font-medium', color)}>
                 +{trend.value} {trend.label}
@@ -38,7 +38,7 @@ export function TodayStatCard({ label, value, icon, color, bgColor, loading, tre
           </>
         )}
       </div>
-      <div className={cn('p-3 rounded-lg', bgColor)}>
+      <div className={cn('rounded-2xl p-3', bgColor)}>
         {loading ? (
           <Skeleton className="h-6 w-6 rounded-lg" />
         ) : (
@@ -90,8 +90,8 @@ export function TodayTaskList({ tasks, overdue, loading }: TodayTaskListProps) {
   if (loading) {
     return (
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
             <CheckSquare className="h-5 w-5" />
             Tasks
           </CardTitle>
@@ -109,8 +109,8 @@ export function TodayTaskList({ tasks, overdue, loading }: TodayTaskListProps) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="flex items-center gap-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+        <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
           <CheckSquare className="h-5 w-5" />
           Tasks
         </CardTitle>
@@ -140,7 +140,7 @@ export function TodayTaskList({ tasks, overdue, loading }: TodayTaskListProps) {
           <div className="space-y-2">
             {overdue && overdue.length > 0 && <h4 className="text-xs font-medium text-muted-foreground mb-2">Due Today</h4>}
             {tasks.map((task) => (
-              <div key={task.id} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-accent transition-colors">
+              <div key={task.id} className="flex items-center gap-3 rounded-xl border border-border/60 bg-background/40 p-3 transition-all hover:-translate-y-0.5 hover:bg-muted/60">
                 <input type="checkbox" className="h-4 w-4 rounded border-gray-300" />
                 <div className="flex-1">
                   <p className="font-medium">{task.title}</p>
@@ -184,8 +184,8 @@ export function TodayHabitList({ habits, loading }: TodayHabitListProps) {
   if (loading) {
     return (
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
             <Target className="h-5 w-5" />
             Habits
           </CardTitle>
@@ -204,8 +204,8 @@ export function TodayHabitList({ habits, loading }: TodayHabitListProps) {
   if (habits.length === 0) {
     return (
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
             <Target className="h-5 w-5" />
             Habits
           </CardTitle>
@@ -220,15 +220,15 @@ export function TodayHabitList({ habits, loading }: TodayHabitListProps) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="flex items-center gap-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+        <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
           <Target className="h-5 w-5" />
           Habits
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         {habits.map((habit) => (
-          <div key={habit.id} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-accent transition-colors">
+          <div key={habit.id} className="flex items-center gap-3 rounded-xl border border-border/60 bg-background/40 p-3 transition-all hover:-translate-y-0.5 hover:bg-muted/60">
             <div 
               className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: habit.color + '20', color: habit.color }}
@@ -290,8 +290,8 @@ export function TodayJournalCard({ journal, loading }: TodayJournalCardProps) {
   if (loading) {
     return (
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
             <BookOpen className="h-5 w-5" />
             Journal
           </CardTitle>
@@ -306,8 +306,8 @@ export function TodayJournalCard({ journal, loading }: TodayJournalCardProps) {
   if (!journal) {
     return (
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
             <BookOpen className="h-5 w-5" />
             Journal
           </CardTitle>
@@ -322,8 +322,8 @@ export function TodayJournalCard({ journal, loading }: TodayJournalCardProps) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="flex items-center gap-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+        <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
           <BookOpen className="h-5 w-5" />
           Journal
         </CardTitle>
@@ -366,8 +366,8 @@ export function TodayEventsCard({ events, loading, className }: TodayEventsCardP
   if (loading) {
     return (
       <Card className={className}>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
             <Calendar className="h-5 w-5" />
             Schedule
           </CardTitle>
@@ -386,8 +386,8 @@ export function TodayEventsCard({ events, loading, className }: TodayEventsCardP
   if (events.length === 0) {
     return (
       <Card className={className}>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
             <Calendar className="h-5 w-5" />
             Schedule
           </CardTitle>
@@ -402,15 +402,15 @@ export function TodayEventsCard({ events, loading, className }: TodayEventsCardP
 
   return (
     <Card className={className}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="flex items-center gap-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+        <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
           <Calendar className="h-5 w-5" />
           Schedule
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         {events.map((event) => (
-          <div key={event.id} className="flex items-start gap-3 p-3 rounded-lg border hover:bg-accent transition-colors">
+          <div key={event.id} className="flex items-start gap-3 rounded-xl border border-border/60 bg-background/40 p-3 transition-all hover:-translate-y-0.5 hover:bg-muted/60">
             <div 
               className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: event.color + '20', color: event.color }}
@@ -443,8 +443,8 @@ interface TodayFinanceCardProps {
 export function TodayFinanceCard({ income, expenses, balance, loading }: TodayFinanceCardProps) {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="flex items-center gap-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+        <CardTitle className="flex items-center gap-2 text-lg tracking-[-0.02em]">
           <DollarSign className="h-5 w-5" />
           Finances This Month
         </CardTitle>
@@ -458,7 +458,7 @@ export function TodayFinanceCard({ income, expenses, balance, loading }: TodayFi
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="text-center p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950 border border-emerald-100 dark:border-emerald-900/50">
                 <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400">Income</p>
                 <p className="text-lg font-semibold text-emerald-600 dark:text-emerald-500 mt-1 tracking-tight">

@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
 import {
@@ -11,7 +12,7 @@ import {
   TodayFinanceCard,
 } from '@/components/dashboard/today-view'
 import { Card } from '@/components/ui/card'
-import { CheckSquare, Target, Calendar, TrendingUp, TrendingDown } from 'lucide-react'
+import { CheckSquare, Target, Calendar, TrendingUp, TrendingDown, ArrowUpRight, Sparkles } from 'lucide-react'
 
 interface TodayData {
   date: string
@@ -218,14 +219,30 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Good morning!</h1>
-          <p className="text-muted-foreground">
-            Today is {today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
-          </p>
+      <section className="relative overflow-hidden rounded-[1.75rem] bg-[#20242a] px-6 py-7 text-white shadow-[0_22px_50px_-30px_rgba(32,36,42,0.8)] md:px-9 md:py-9">
+        <div className="absolute -right-16 -top-24 h-64 w-64 rounded-full bg-[#f4c94f]/20 blur-3xl" />
+        <div className="relative flex flex-col justify-between gap-8 md:flex-row md:items-end">
+          <div>
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/65">
+              <Sparkles className="h-3.5 w-3.5 text-[#f4c94f]" />
+              Your personal rhythm
+            </div>
+            <h1 className="max-w-xl text-3xl font-semibold tracking-[-0.04em] md:text-5xl">Good morning, make space for what matters.</h1>
+            <p className="mt-3 max-w-lg text-sm leading-6 text-white/60 md:text-base">
+              A calm view of your day, from focused tasks to the small habits that move you forward.
+            </p>
+          </div>
+          <div className="flex items-center gap-3 text-sm text-white/60">
+            <div className="rounded-2xl bg-white/10 px-4 py-3 text-right">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-white/40">Today</p>
+              <p className="mt-1 font-medium text-white">{today.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
+            </div>
+            <Link href="/dashboard/tasks" className="group rounded-2xl bg-[#f4c94f] px-4 py-3 font-semibold text-[#20242a] transition-transform hover:-translate-y-0.5">
+              Plan your day <ArrowUpRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '0ms' }}>

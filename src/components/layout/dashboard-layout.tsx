@@ -41,12 +41,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <Header sidebarCollapsed={sidebarCollapsed} onMobileMenuToggle={() => setMobileMenuOpen(true)} />
       <main
         className={cn(
-          'min-h-screen transition-all duration-300 pt-16',
+          'min-h-screen transition-all duration-300 pt-20',
           'ml-0 lg:ml-16',
           !sidebarCollapsed && 'lg:ml-64'
         )}
       >
-        <div className="p-4 md:p-6 lg:p-8">{children}</div>
+        <div className="mx-auto max-w-[1440px] p-4 md:p-7 lg:p-10">{children}</div>
       </main>
 
       {mobileMenuOpen && (
