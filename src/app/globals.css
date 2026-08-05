@@ -23,7 +23,7 @@
     --border: 240 6% 90%;
     --input: 240 6% 90%;
     --ring: 355 80% 34%;
-    --radius: 0.875rem;
+    --radius: 1.25rem;
     --z-sidebar: 40;
     --z-header: 30;
     --z-overlay: 65;
@@ -52,7 +52,7 @@
     --border: 240 5% 18%;
     --input: 240 5% 18%;
     --ring: 355 80% 50%;
-    --radius: 0.875rem;
+    --radius: 1.25rem;
     --z-sidebar: 40;
     --z-header: 30;
     --z-overlay: 65;

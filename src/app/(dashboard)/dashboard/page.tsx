@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
 import {
-  TodayStatCard,
+  TodayCircularStatCard,
   TodayTaskList,
   TodayHabitList,
   TodayEventsCard,
@@ -11,6 +11,7 @@ import {
   TodayFinanceCard,
 } from '@/components/dashboard/today-view'
 import { Card } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { CheckSquare, Target, Calendar, TrendingUp, TrendingDown } from 'lucide-react'
 
 interface TodayData {
@@ -92,9 +93,8 @@ async function fetchTodayData(): Promise<TodayData> {
 
 function StatCardSkeleton() {
   return (
-    <div className="animate-pulse">
-      <div className="h-4 w-1/4 bg-muted rounded mb-2" />
-      <div className="h-8 w-1/2 bg-muted rounded" />
+    <div className="animate-pulse flex items-center justify-center p-6">
+      <Skeleton className="h-32 w-32 rounded-full" />
     </div>
   )
 }
@@ -175,19 +175,19 @@ export default function DashboardPage() {
           <div className="h-10 w-24 bg-muted rounded animate-pulse" />
         </div>
         
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-6 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
             <Card key={i}><StatCardSkeleton /></Card>
           ))}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="grid gap-6 lg:grid-cols-2">
           <Card><TasksSkeleton /></Card>
           <Card><HabitsSkeleton /></Card>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-          <Card className="lg:col-span-2"><EventsSkeleton /></Card>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card><EventsSkeleton /></Card>
           <Card><JournalSkeleton /></Card>
         </div>
 
@@ -227,56 +227,46 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-6 lg:grid-cols-4">
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '0ms' }}>
-          <TodayStatCard
+          <TodayCircularStatCard
             label="Tasks Due Today"
             value={stats.tasksDueToday}
-            icon={<CheckSquare className="h-6 w-6 text-blue-500" />}
+            maxValue={20}
             color="text-blue-500"
-            bgColor="bg-blue-100 dark:bg-blue-900/30"
-            trend={stats.completedTasksToday > 0 ? { value: stats.completedTasksToday, label: 'completed' } : undefined}
             href="/dashboard/tasks"
           />
         </div>
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '75ms' }}>
-          <TodayStatCard
+          <TodayCircularStatCard
             label="Habit Progress"
-            value={`${stats.habitsProgress}%`}
-            icon={<Target className="h-6 w-6 text-orange-500" />}
+            value={stats.habitsProgress}
+            maxValue={100}
             color="text-orange-500"
-            bgColor="bg-orange-100 dark:bg-orange-900/30"
-            trend={stats.habitsCompleted > 0 ? { value: stats.habitsCompleted, label: 'done' } : undefined}
             href="/dashboard/habits"
           />
         </div>
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '150ms' }}>
-          <TodayStatCard
+          <TodayCircularStatCard
             label="Events Today"
             value={stats.eventsToday}
-            icon={<Calendar className="h-6 w-6 text-purple-500" />}
+            maxValue={10}
             color="text-purple-500"
-            bgColor="bg-purple-100 dark:bg-purple-900/30"
             href="/dashboard/calendar"
           />
         </div>
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '225ms' }}>
-          <TodayStatCard
+          <TodayCircularStatCard
             label="This Month"
-            value={`$${stats.balanceThisMonth.toLocaleString()}`}
-            icon={stats.balanceThisMonth >= 0 ? (
-              <TrendingUp className="h-6 w-6 text-green-500" />
-            ) : (
-              <TrendingDown className="h-6 w-6 text-red-500" />
-            )}
+            value={Math.abs(stats.balanceThisMonth)}
+            maxValue={10000}
             color={stats.balanceThisMonth >= 0 ? 'text-green-500' : 'text-red-500'}
-            bgColor={stats.balanceThisMonth >= 0 ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}
             href="/dashboard/finances"
           />
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="grid gap-6 lg:grid-cols-2">
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '300ms' }}>
           <TodayTaskList tasks={tasks.dueToday} overdue={tasks.overdue} />
         </div>
@@ -285,8 +275,8 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-        <div className="lg:col-span-2 animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '450ms' }}>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '450ms' }}>
           <TodayEventsCard events={events} />
         </div>
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '525ms' }}>

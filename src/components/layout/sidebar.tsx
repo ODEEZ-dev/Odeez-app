@@ -103,7 +103,7 @@ export function Sidebar({ collapsed, onToggle, onNavigate, mobile = false }: Sid
                       <Link
                         href={item.href}
                         className={cn(
-                          'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                          'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
                           isActive
                             ? 'bg-primary text-primary-foreground'
                             : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
@@ -123,7 +123,7 @@ export function Sidebar({ collapsed, onToggle, onNavigate, mobile = false }: Sid
                   <Link
                     href={item.href}
                     className={cn(
-                      'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                      'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors',
                       isActive
                         ? 'bg-primary text-primary-foreground'
                         : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
@@ -141,7 +141,7 @@ export function Sidebar({ collapsed, onToggle, onNavigate, mobile = false }: Sid
         </nav>
 
         <div className="p-4 border-t">
-          <div className={cn('rounded-lg p-3 text-center', collapsed && 'px-0')}>
+          <div className={cn('rounded-2xl p-3 text-center', collapsed && 'px-0')}>
             {!collapsed && (
               <p className="text-xs text-muted-foreground">
                 Press <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">⌘K</kbd> to search
