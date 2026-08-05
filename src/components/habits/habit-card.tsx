@@ -70,7 +70,7 @@ export function HabitCard({
   }
 
   return (
-    <Card className="relative overflow-hidden transition-colors hover:bg-accent/30">
+    <Card className="relative overflow-hidden rounded-2xl shadow-sm transition-all hover:-translate-y-0.5 hover:bg-accent/30 hover:shadow-md">
       
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
@@ -200,7 +200,7 @@ export function HabitCard({
                   <TooltipTrigger asChild>
                     <div
                       className={cn(
-                        'aspect-square rounded flex items-center justify-center text-xs font-medium transition-colors',
+                        'aspect-square rounded-lg flex items-center justify-center text-xs font-medium transition-colors',
                         isSameDay(day, today) ? 'ring-2 ring-primary' : '',
                         isPast(day) ? getDayColor(day) : 'bg-muted/50 text-muted-foreground/50'
                       )}

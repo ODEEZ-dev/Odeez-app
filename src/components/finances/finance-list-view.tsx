@@ -225,7 +225,7 @@ export function FinanceListView({
           )}
 
           {/* Transactions Table */}
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto rounded-2xl border bg-muted/10 p-1">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-muted-foreground/20">
@@ -246,7 +246,7 @@ export function FinanceListView({
                   </tr>
                 ) : (
                   filteredEntries.map((entry) => (
-                    <tr key={entry.id} className="hover:bg-accent/50 transition-colors">
+                    <tr key={entry.id} className="rounded-xl hover:bg-accent/50 transition-colors">
                       <td className="py-3 px-4 text-sm whitespace-nowrap">
                         {format(new Date(entry.date), 'MMM d, yyyy')}
                       </td>

@@ -175,18 +175,18 @@ export default function DashboardPage() {
           <div className="h-10 w-24 bg-muted rounded animate-pulse" />
         </div>
         
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[...Array(4)].map((_, i) => (
             <Card key={i}><StatCardSkeleton /></Card>
           ))}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
           <Card><TasksSkeleton /></Card>
           <Card><HabitsSkeleton /></Card>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
           <Card className="lg:col-span-2"><EventsSkeleton /></Card>
           <Card><JournalSkeleton /></Card>
         </div>
@@ -227,7 +227,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '0ms' }}>
           <TodayStatCard
             label="Tasks Due Today"
@@ -276,7 +276,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '300ms' }}>
           <TodayTaskList tasks={tasks.dueToday} overdue={tasks.overdue} />
         </div>
@@ -285,7 +285,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
         <div className="lg:col-span-2 animate-card-enter opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: '450ms' }}>
           <TodayEventsCard events={events} />
         </div>

@@ -46,7 +46,7 @@ export function TaskCard({ task, onUpdate, onDelete, isDragging, provided, showC
   const subtaskProgress = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0
 
   return (
-    <Card className={cn('p-3 shadow-sm transition-shadow hover:shadow-md', task.priority === 'URGENT' && 'border-l-4 border-red-500', task.priority === 'HIGH' && 'border-l-4 border-orange-500', isDragging && 'shadow-lg ring-2 ring-primary')}>
+    <Card className={cn('group p-3.5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md', task.priority === 'URGENT' && 'border-l-4 border-red-500', task.priority === 'HIGH' && 'border-l-4 border-orange-500', isDragging && 'shadow-lg ring-2 ring-primary')}>
       <div className="flex items-start gap-2">
         <div
           ref={provided?.innerRef}
@@ -135,7 +135,7 @@ export function TaskCard({ task, onUpdate, onDelete, isDragging, provided, showC
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100">
+              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg p-0 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100">
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>

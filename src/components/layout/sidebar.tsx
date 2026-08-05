@@ -42,10 +42,11 @@ const navigation = [
 interface SidebarProps {
   collapsed: boolean
   onToggle: () => void
+  onNavigate?: () => void
   mobile?: boolean
 }
 
-export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
+export function Sidebar({ collapsed, onToggle, onNavigate, mobile = false }: SidebarProps) {
   const pathname = usePathname()
 
   return (
@@ -54,7 +55,9 @@ export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
         className={cn(
           'fixed left-0 top-0 z-sidebar h-screen border-r bg-card transition-all duration-300 flex flex-col',
           collapsed ? 'w-16' : 'w-64',
-          mobile ? 'flex' : 'hidden md:flex'
+          mobile
+            ? 'flex w-[min(18rem,calc(100vw-1.5rem))] rounded-r-3xl shadow-2xl'
+            : 'hidden md:flex'
         )}
         aria-label="Main navigation"
       >
@@ -107,6 +110,7 @@ export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
                           collapsed && 'justify-center'
                         )}
                         aria-current={isActive ? 'page' : undefined}
+                        onClick={onNavigate}
                       >
                         <Icon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
                       </Link>
@@ -125,6 +129,7 @@ export function Sidebar({ collapsed, onToggle, mobile = false }: SidebarProps) {
                         : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
                     )}
                     aria-current={isActive ? 'page' : undefined}
+                    onClick={onNavigate}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
                     <span>{item.name}</span>

@@ -43,7 +43,7 @@ export function CalendarEventCard({
   return (
     <Card
       className={cn(
-        'transition-colors hover:bg-accent/30 cursor-pointer rounded-lg border',
+        'group rounded-2xl border shadow-sm transition-all hover:-translate-y-0.5 hover:bg-accent/30 hover:shadow-md cursor-pointer',
         isSelectedDate && 'ring-2 ring-primary/50'
       )}
       onClick={() => onEdit(event)}

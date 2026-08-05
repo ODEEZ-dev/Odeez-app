@@ -121,7 +121,7 @@ export function TodayTaskList({ tasks, overdue, loading }: TodayTaskListProps) {
               <h4 className="text-xs font-semibold text-destructive mb-2">Overdue</h4>
             <div className="space-y-2">
               {overdue.map((task) => (
-                <div key={task.id} className="flex items-center gap-3 p-3 rounded-lg border bg-destructive/5">
+                <div key={task.id} className="flex items-center gap-3 p-3 rounded-xl border bg-destructive/5 shadow-sm">
                   <input type="checkbox" className="h-4 w-4 rounded border-gray-300" />
                   <div className="flex-1">
                     <p className="font-medium line-through text-muted-foreground">{task.title}</p>
@@ -140,7 +140,7 @@ export function TodayTaskList({ tasks, overdue, loading }: TodayTaskListProps) {
           <div className="space-y-2">
             {overdue && overdue.length > 0 && <h4 className="text-xs font-medium text-muted-foreground mb-2">Due Today</h4>}
             {tasks.map((task) => (
-              <div key={task.id} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-accent transition-colors">
+              <div key={task.id} className="flex items-center gap-3 p-3.5 rounded-xl border bg-background/60 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-accent hover:shadow-md">
                 <input type="checkbox" className="h-4 w-4 rounded border-gray-300" />
                 <div className="flex-1">
                   <p className="font-medium">{task.title}</p>
@@ -228,7 +228,7 @@ export function TodayHabitList({ habits, loading }: TodayHabitListProps) {
       </CardHeader>
       <CardContent className="space-y-3">
         {habits.map((habit) => (
-          <div key={habit.id} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-accent transition-colors">
+          <div key={habit.id} className="flex items-center gap-3 p-3.5 rounded-xl border bg-background/60 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-accent hover:shadow-md">
             <div 
               className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: habit.color + '20', color: habit.color }}
@@ -410,7 +410,7 @@ export function TodayEventsCard({ events, loading, className }: TodayEventsCardP
       </CardHeader>
       <CardContent className="space-y-3">
         {events.map((event) => (
-          <div key={event.id} className="flex items-start gap-3 p-3 rounded-lg border hover:bg-accent transition-colors">
+          <div key={event.id} className="flex items-start gap-3 p-3.5 rounded-xl border bg-background/60 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-accent hover:shadow-md">
             <div 
               className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: event.color + '20', color: event.color }}
@@ -459,19 +459,19 @@ export function TodayFinanceCard({ income, expenses, balance, loading }: TodayFi
         ) : (
           <>
             <div className="grid grid-cols-3 gap-3">
-              <div className="text-center p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950 border border-emerald-100 dark:border-emerald-900/50">
+              <div className="text-center p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950 border border-emerald-100 dark:border-emerald-900/50">
                 <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400">Income</p>
                 <p className="text-lg font-semibold text-emerald-600 dark:text-emerald-500 mt-1 tracking-tight">
                   {formatCurrency(income)}
                 </p>
               </div>
-              <div className="text-center p-3 rounded-lg bg-rose-50 dark:bg-rose-950 border border-rose-100 dark:border-rose-900/50">
+              <div className="text-center p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950 border border-rose-100 dark:border-rose-900/50">
                 <p className="text-xs font-medium text-rose-700 dark:text-rose-400">Expenses</p>
                 <p className="text-lg font-semibold text-rose-600 dark:text-rose-500 mt-1 tracking-tight">
                   {formatCurrency(expenses)}
                 </p>
               </div>
-              <div className="text-center p-3 rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/10 dark:border-primary/20">
+              <div className="text-center p-3.5 rounded-xl bg-primary/5 dark:bg-primary/10 border border-primary/10 dark:border-primary/20">
                 <p className="text-xs font-medium text-muted-foreground">Balance</p>
                 <p className={cn(
                   'text-lg font-semibold mt-1 tracking-tight',

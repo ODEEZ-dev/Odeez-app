@@ -46,11 +46,11 @@ export function Header({ sidebarCollapsed, onMobileMenuToggle }: { sidebarCollap
     <header
       className={cn(
         'fixed top-0 right-0 z-header h-16 border-b bg-background/85 backdrop-blur-md transition-all duration-300',
-        'left-0 lg:left-16',
-        !sidebarCollapsed && 'lg:left-64'
+        'left-0 md:left-16',
+        !sidebarCollapsed && 'md:left-64'
       )}
     >
-      <div className="flex h-full items-center justify-between px-4">
+      <div className="mx-auto flex h-full w-full max-w-[1600px] items-center justify-between px-3 sm:px-4 md:px-6">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"

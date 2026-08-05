@@ -28,8 +28,8 @@ function KanbanColumn({ status, title, tasks, onTaskUpdate, onTaskDelete, onAddT
           ref={provided.innerRef}
           {...provided.droppableProps}
           className={cn(
-            'flex flex-col min-h-[500px] max-h-[calc(100vh-300px)] w-72 flex-shrink-0',
-            snapshot.isDraggingOver && 'bg-accent/50 rounded-lg'
+            'flex flex-col min-h-[500px] max-h-[calc(100vh-300px)] w-72 flex-shrink-0 rounded-2xl bg-muted/30 p-2',
+            snapshot.isDraggingOver && 'bg-accent/60 ring-1 ring-primary/20'
           )}
         >
           <div className="flex items-center justify-between px-3 py-2">
@@ -47,7 +47,7 @@ function KanbanColumn({ status, title, tasks, onTaskUpdate, onTaskDelete, onAddT
             </Button>
           </div>
           <div
-            className="flex-1 overflow-y-auto space-y-2 px-3 pb-4"
+            className="flex-1 overflow-y-auto space-y-2 px-1 pb-2"
             {...provided.droppableProps}
             ref={provided.innerRef}
           >

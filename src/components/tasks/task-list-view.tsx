@@ -64,8 +64,8 @@ function TaskRow({
 
   return (
     <div className={cn(
-      'group flex items-center gap-3 p-3 rounded-lg border transition-colors hover:bg-accent',
-      view === 'compact' && 'py-2'
+      'group flex items-center gap-3 rounded-xl border bg-card p-3.5 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-accent hover:shadow-md',
+      view === 'compact' && 'py-2.5'
     )}>
       <Checkbox
         checked={task.status === 'DONE'}

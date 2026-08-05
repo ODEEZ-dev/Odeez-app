@@ -265,7 +265,7 @@ export function CalendarListView({
           )}
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-3 rounded-2xl bg-muted/20 p-2 sm:p-3">
           {sortedEvents.map((event) => (
             <CalendarEventCard
               key={event.id}
